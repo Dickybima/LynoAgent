@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cara Kerja — Lyno Agent</title>
-  <meta name="description" content="Lyno Agent: MCP server untuk Claude dan klien MCP lain — workspace, web, memori jangka panjang, dan utilitas dalam satu agen." />
+  <title>How It Works — Lyno Agent</title>
+  <meta name="description" content="Lyno Agent: an MCP server for Claude and other MCP clients — workspace, web, long-term memory and utilities in one agent." />
   <meta name="theme-color" content="#02060a" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
   <meta property="og:title" content="Lyno Agent" />
-  <meta property="og:description" content="Operator digital diam-diam untuk AI Anda — MCP server." />
+  <meta property="og:description" content="The silent digital operator for your AI — an MCP server." />
   <meta property="og:image" content="assets/lyno-logo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,36 +24,36 @@
       <img src="assets/favicon-64.png" alt="" width="32" height="32" />
       <span>LYNO<b>AGENT</b></span>
     </a>
-    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
       <span></span><span></span><span></span>
     </button>
     <nav id="menu">
-        <a href="index.html">Beranda</a>
+        <a href="index.html">Home</a>
         <a href="tools.html">Tools</a>
-        <a href="instalasi.html">Instalasi</a>
-        <a href="cara-kerja.html" class="active" aria-current="page">Cara Kerja</a>
+        <a href="install.html">Install</a>
+        <a href="how-it-works.html" class="active" aria-current="page">How It Works</a>
     </nav>
   </header>
 
   <main>
     <section id="how" class="section">
-      <h1 class="page-title">Cara Kerja</h1>
+      <h1 class="page-title">How It Works</h1>
       <div class="flow">
-        <div class="node">Anda</div>
+        <div class="node">You</div>
         <div class="wire"></div>
-        <div class="node">Claude / klien MCP</div>
+        <div class="node">Claude / MCP client</div>
         <div class="wire label-wire"><span>JSON-RPC · stdio / HTTP</span></div>
         <div class="node glow">Lyno Agent</div>
         <div class="wire"></div>
-        <div class="node">File · Web · Memori</div>
+        <div class="node">Files · Web · Memory</div>
       </div>
-      <p class="sub center">Model memutuskan kapan memanggil tool; Lyno mengeksekusinya dalam batas yang Anda tentukan, lalu mengembalikan hasilnya.</p>
+      <p class="sub center">The model decides when to call a tool; Lyno executes it within the limits you set and returns the result.</p>
     </section>
   </main>
 
   <footer>
     <img src="assets/favicon-64.png" alt="" width="24" height="24" />
-    <span>Lyno Agent · MIT License · dibangun di atas Model Context Protocol</span>
+    <span>Lyno Agent · MIT License · built on the Model Context Protocol</span>
   </footer>
 
   <script src="main.js"></script>

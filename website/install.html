@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instalasi — Lyno Agent</title>
-  <meta name="description" content="Lyno Agent: MCP server untuk Claude dan klien MCP lain — workspace, web, memori jangka panjang, dan utilitas dalam satu agen." />
+  <title>Install — Lyno Agent</title>
+  <meta name="description" content="Lyno Agent: an MCP server for Claude and other MCP clients — workspace, web, long-term memory and utilities in one agent." />
   <meta name="theme-color" content="#02060a" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
   <meta property="og:title" content="Lyno Agent" />
-  <meta property="og:description" content="Operator digital diam-diam untuk AI Anda — MCP server." />
+  <meta property="og:description" content="The silent digital operator for your AI — an MCP server." />
   <meta property="og:image" content="assets/lyno-logo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,28 +24,28 @@
       <img src="assets/favicon-64.png" alt="" width="32" height="32" />
       <span>LYNO<b>AGENT</b></span>
     </a>
-    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
       <span></span><span></span><span></span>
     </button>
     <nav id="menu">
-        <a href="index.html">Beranda</a>
+        <a href="index.html">Home</a>
         <a href="tools.html">Tools</a>
-        <a href="instalasi.html" class="active" aria-current="page">Instalasi</a>
-        <a href="cara-kerja.html">Cara Kerja</a>
+        <a href="install.html" class="active" aria-current="page">Install</a>
+        <a href="how-it-works.html">How It Works</a>
     </nav>
   </header>
 
   <main>
     <section id="install" class="section">
-      <h1 class="page-title">Instalasi</h1>
-      <p class="sub">Build sekali, lalu sambungkan ke klien MCP favorit Anda.</p>
+      <h1 class="page-title">Install</h1>
+      <p class="sub">Build once, then connect it to your favorite MCP client.</p>
 
       <div class="steps">
         <div class="step">
           <span class="num">1</span>
           <div>
             <h3>Build server</h3>
-            <div class="code"><button class="copy" type="button">Salin</button><pre><code>cd server
+            <div class="code"><button class="copy" type="button">Copy</button><pre><code>cd server
 npm install
 npm run build</code></pre></div>
           </div>
@@ -54,33 +54,33 @@ npm run build</code></pre></div>
         <div class="step">
           <span class="num">2</span>
           <div>
-            <h3>Sambungkan ke klien</h3>
+            <h3>Connect a client</h3>
             <div class="tabs" role="tablist">
               <button class="tab active" data-tab="desktop" role="tab">Claude Desktop</button>
               <button class="tab" data-tab="code" role="tab">Claude Code</button>
               <button class="tab" data-tab="http" role="tab">HTTP</button>
             </div>
             <div class="panel active" data-panel="desktop">
-              <p class="hint">Tambahkan ke <code>claude_desktop_config.json</code>:</p>
-              <div class="code"><button class="copy" type="button">Salin</button><pre><code>{
+              <p class="hint">Add this to <code>claude_desktop_config.json</code>:</p>
+              <div class="code"><button class="copy" type="button">Copy</button><pre><code>{
   "mcpServers": {
     "lyno-agent": {
       "command": "node",
-      "args": ["/path/ke/LynoAgent/server/dist/index.js"],
-      "env": { "LYNO_WORKSPACE": "/path/ke/project-anda" }
+      "args": ["/path/to/LynoAgent/server/dist/index.js"],
+      "env": { "LYNO_WORKSPACE": "/path/to/your-project" }
     }
   }
 }</code></pre></div>
             </div>
             <div class="panel" data-panel="code">
-              <div class="code"><button class="copy" type="button">Salin</button><pre><code>claude mcp add lyno-agent \
+              <div class="code"><button class="copy" type="button">Copy</button><pre><code>claude mcp add lyno-agent \
   -e LYNO_WORKSPACE=$(pwd) \
-  -- node /path/ke/LynoAgent/server/dist/index.js</code></pre></div>
+  -- node /path/to/LynoAgent/server/dist/index.js</code></pre></div>
             </div>
             <div class="panel" data-panel="http">
-              <p class="hint">Jalankan endpoint Streamable HTTP di <code>/mcp</code>:</p>
-              <div class="code"><button class="copy" type="button">Salin</button><pre><code>node server/dist/index.js --http --port 3333
-# → http://127.0.0.1:3333/mcp   (cek: /health)</code></pre></div>
+              <p class="hint">Run a Streamable HTTP endpoint at <code>/mcp</code>:</p>
+              <div class="code"><button class="copy" type="button">Copy</button><pre><code>node server/dist/index.js --http --port 3333
+# → http://127.0.0.1:3333/mcp   (check: /health)</code></pre></div>
             </div>
           </div>
         </div>
@@ -88,11 +88,11 @@ npm run build</code></pre></div>
         <div class="step">
           <span class="num">3</span>
           <div>
-            <h3>Konfigurasi (opsional)</h3>
+            <h3>Configuration (optional)</h3>
             <table class="env">
-              <tr><td><code>LYNO_WORKSPACE</code></td><td>Folder yang boleh diakses tool file (default: folder saat ini)</td></tr>
-              <tr><td><code>LYNO_DATA_DIR</code></td><td>Lokasi penyimpanan memori (default: <code>~/.lyno-agent</code>)</td></tr>
-              <tr><td><code>LYNO_READ_ONLY</code></td><td>Isi <code>1</code> untuk mematikan semua aksi tulis</td></tr>
+              <tr><td><code>LYNO_WORKSPACE</code></td><td>Folder the file tools may access (default: current directory)</td></tr>
+              <tr><td><code>LYNO_DATA_DIR</code></td><td>Where memory is stored (default: <code>~/.lyno-agent</code>)</td></tr>
+              <tr><td><code>LYNO_READ_ONLY</code></td><td>Set to <code>1</code> to disable all write actions</td></tr>
             </table>
           </div>
         </div>
@@ -102,7 +102,7 @@ npm run build</code></pre></div>
 
   <footer>
     <img src="assets/favicon-64.png" alt="" width="24" height="24" />
-    <span>Lyno Agent · MIT License · dibangun di atas Model Context Protocol</span>
+    <span>Lyno Agent · MIT License · built on the Model Context Protocol</span>
   </footer>
 
   <script src="main.js"></script>

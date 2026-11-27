@@ -5,7 +5,7 @@ if (toggle && menu) {
   toggle.addEventListener("click", () => {
     const open = menu.classList.toggle("open");
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   });
 }
 
@@ -15,11 +15,11 @@ document.querySelectorAll(".copy").forEach((btn) => {
     const code = btn.parentElement.querySelector("code").innerText;
     try {
       await navigator.clipboard.writeText(code);
-      btn.textContent = "Tersalin ✓";
+      btn.textContent = "Copied ✓";
     } catch {
-      btn.textContent = "Gagal";
+      btn.textContent = "Failed";
     }
-    setTimeout(() => (btn.textContent = "Salin"), 1500);
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
   });
 });
 

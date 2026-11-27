@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tools — Lyno Agent</title>
-  <meta name="description" content="Lyno Agent: MCP server untuk Claude dan klien MCP lain — workspace, web, memori jangka panjang, dan utilitas dalam satu agen." />
+  <meta name="description" content="Lyno Agent: an MCP server for Claude and other MCP clients — workspace, web, long-term memory and utilities in one agent." />
   <meta name="theme-color" content="#02060a" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
   <meta property="og:title" content="Lyno Agent" />
-  <meta property="og:description" content="Operator digital diam-diam untuk AI Anda — MCP server." />
+  <meta property="og:description" content="The silent digital operator for your AI — an MCP server." />
   <meta property="og:image" content="assets/lyno-logo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,44 +24,44 @@
       <img src="assets/favicon-64.png" alt="" width="32" height="32" />
       <span>LYNO<b>AGENT</b></span>
     </a>
-    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
       <span></span><span></span><span></span>
     </button>
     <nav id="menu">
-        <a href="index.html">Beranda</a>
+        <a href="index.html">Home</a>
         <a href="tools.html" class="active" aria-current="page">Tools</a>
-        <a href="instalasi.html">Instalasi</a>
-        <a href="cara-kerja.html">Cara Kerja</a>
+        <a href="install.html">Install</a>
+        <a href="how-it-works.html">How It Works</a>
     </nav>
   </header>
 
   <main>
     <section id="tools" class="section">
-      <h1 class="page-title">Arsenal tools</h1>
-      <p class="sub">Semua tool terdaftar dengan skema yang jelas dan anotasi <code>readOnly</code> / <code>destructive</code>.</p>
+      <h1 class="page-title">Tool Arsenal</h1>
+      <p class="sub">Every tool is registered with a clear schema and <code>readOnly</code> / <code>destructive</code> annotations.</p>
       <div class="grid">
         <article class="card">
           <div class="icon">⌂</div>
           <h3>Workspace</h3>
-          <p>Jelajahi dan ubah file — terkunci di dalam folder <code>LYNO_WORKSPACE</code>, aman dari path traversal & symlink keluar.</p>
+          <p>Browse and edit files — locked inside the <code>LYNO_WORKSPACE</code> folder, protected against path traversal and escaping symlinks.</p>
           <ul><li>list_directory</li><li>read_file</li><li>write_file</li><li>search_files</li></ul>
         </article>
         <article class="card">
           <div class="icon">◎</div>
           <h3>Web</h3>
-          <p>Ambil halaman publik; HTML otomatis diubah menjadi teks yang mudah dibaca model.</p>
+          <p>Fetch public pages; HTML is automatically converted into model-friendly text.</p>
           <ul><li>fetch_url</li></ul>
         </article>
         <article class="card">
           <div class="icon">◈</div>
-          <h3>Memori</h3>
-          <p>Ingatan jangka panjang lintas percakapan, disimpan lokal di <code>~/.lyno-agent</code>.</p>
+          <h3>Memory</h3>
+          <p>Long-term memory across conversations, stored locally in <code>~/.lyno-agent</code>.</p>
           <ul><li>remember</li><li>recall</li><li>forget</li></ul>
         </article>
         <article class="card">
           <div class="icon">⚙</div>
-          <h3>Utilitas</h3>
-          <p>Kalkulator aman (tanpa <code>eval</code>), zona waktu, hash, UUID, dan status agen.</p>
+          <h3>Utilities</h3>
+          <p>Safe calculator (no <code>eval</code>), time zones, hashing, UUIDs and agent status.</p>
           <ul><li>calculate</li><li>get_time</li><li>hash_text</li><li>generate_uuid</li><li>lyno_status</li></ul>
         </article>
       </div>
@@ -74,7 +74,7 @@
 
   <footer>
     <img src="assets/favicon-64.png" alt="" width="24" height="24" />
-    <span>Lyno Agent · MIT License · dibangun di atas Model Context Protocol</span>
+    <span>Lyno Agent · MIT License · built on the Model Context Protocol</span>
   </footer>
 
   <script src="main.js"></script>

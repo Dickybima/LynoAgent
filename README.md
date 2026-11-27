@@ -3,27 +3,27 @@
 </p>
 
 <h1 align="center">Lyno Agent</h1>
-<p align="center">MCP (Model Context Protocol) server — operator digital untuk AI Anda.</p>
+<p align="center">MCP (Model Context Protocol) server — the digital operator for your AI.</p>
 
-## Isi repo
+## Repository layout
 
-| Folder | Isi |
+| Folder | Contents |
 |---|---|
 | `server/` | MCP server (TypeScript, `@modelcontextprotocol/sdk`) — stdio & Streamable HTTP |
-| `website/` | Landing page statis (HTML/CSS/JS) dengan tema & logo Lyno |
+| `website/` | Static multi-page website (HTML/CSS/JS) with the Lyno theme and logo |
 
 ## Tools
 
-| Grup | Tools |
+| Group | Tools |
 |---|---|
-| Workspace | `list_directory`, `read_file`, `write_file`, `search_files` (terkunci di `LYNO_WORKSPACE`) |
-| Web | `fetch_url` (HTML → teks) |
-| Memori | `remember`, `recall`, `forget` (disimpan di `~/.lyno-agent/memory.json`) |
-| Utilitas | `calculate` (tanpa `eval`), `get_time`, `hash_text`, `generate_uuid`, `lyno_status` |
+| Workspace | `list_directory`, `read_file`, `write_file`, `search_files` (locked to `LYNO_WORKSPACE`) |
+| Web | `fetch_url` (HTML → text) |
+| Memory | `remember`, `recall`, `forget` (stored in `~/.lyno-agent/memory.json`) |
+| Utilities | `calculate` (no `eval`), `get_time`, `hash_text`, `generate_uuid`, `lyno_status` |
 
 Resources: `lyno://about`, `lyno://memory` · Prompts: `lyno-operator`, `lyno-code-review`
 
-## Menjalankan
+## Getting started
 
 ```bash
 cd server
@@ -38,8 +38,8 @@ npm run build
   "mcpServers": {
     "lyno-agent": {
       "command": "node",
-      "args": ["/path/ke/LynoAgent/server/dist/index.js"],
-      "env": { "LYNO_WORKSPACE": "/path/ke/project-anda" }
+      "args": ["/path/to/LynoAgent/server/dist/index.js"],
+      "env": { "LYNO_WORKSPACE": "/path/to/your-project" }
     }
   }
 }
@@ -48,7 +48,7 @@ npm run build
 **Claude Code**:
 
 ```bash
-claude mcp add lyno-agent -e LYNO_WORKSPACE=$(pwd) -- node /path/ke/LynoAgent/server/dist/index.js
+claude mcp add lyno-agent -e LYNO_WORKSPACE=$(pwd) -- node /path/to/LynoAgent/server/dist/index.js
 ```
 
 **HTTP** (endpoint `/mcp`, health check `/health`):
@@ -57,20 +57,20 @@ claude mcp add lyno-agent -e LYNO_WORKSPACE=$(pwd) -- node /path/ke/LynoAgent/se
 node server/dist/index.js --http --port 3333
 ```
 
-Uji dengan MCP Inspector: `cd server && npm run inspect`
+Test with the MCP Inspector: `cd server && npm run inspect`
 
-### Variabel lingkungan
+### Environment variables
 
-| Nama | Fungsi |
+| Name | Purpose |
 |---|---|
-| `LYNO_WORKSPACE` | Folder yang boleh diakses tool file (default: folder saat ini) |
-| `LYNO_DATA_DIR` | Lokasi memori (default: `~/.lyno-agent`) |
-| `LYNO_READ_ONLY` | `1` = matikan semua aksi tulis |
+| `LYNO_WORKSPACE` | Folder the file tools may access (default: current directory) |
+| `LYNO_DATA_DIR` | Where memory is stored (default: `~/.lyno-agent`) |
+| `LYNO_READ_ONLY` | `1` disables all write actions |
 
 ## Website
 
-Website terdiri dari beberapa halaman dengan menu navigasi: `index.html` (Beranda), `tools.html`, `instalasi.html`, dan `cara-kerja.html`. Buka `website/index.html` langsung di browser, atau sajikan folder `website/` lewat hosting statis apa pun (GitHub Pages, Netlify, Vercel).
+The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html` and `how-it-works.html`. Open `website/index.html` directly in a browser, or serve the `website/` folder from any static host (GitHub Pages, Netlify, Vercel).
 
-## Lisensi
+## License
 
 MIT
