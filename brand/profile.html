@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+body { width: 400px; height: 400px; position: relative; }
+.glow { position: absolute; inset: 40px; border-radius: 50%; background: radial-gradient(circle, rgba(34,229,255,0.35), rgba(61,107,255,0.12) 50%, transparent 72%); filter: blur(18px); }
+img { position: absolute; left: 50%; top: 52%; width: 372px; transform: translate(-50%, -50%);
+      -webkit-mask-image: radial-gradient(circle at 50% 46%, #000 60%, transparent 71%); mask-image: radial-gradient(circle at 50% 46%, #000 60%, transparent 71%); }
+.dots { -webkit-mask-image: radial-gradient(circle, transparent 40%, #000 75%); mask-image: radial-gradient(circle, transparent 40%, #000 75%); opacity: .6; }
+</style></head><body><div class="dots"></div><div class="glow"></div><img src="logo.webp"></body></html>
