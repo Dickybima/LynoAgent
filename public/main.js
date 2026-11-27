@@ -2,8 +2,9 @@
 // Fill these in once; the header and footer pick them up on every page.
 // Empty values are hidden, so nothing placeholder-y shows on the site.
 const SITE = {
+  domain: "https://lynoagent.com", // canonical site URL — shown in endpoint boxes even when opened via *.vercel.app
   x: "",        // X / Twitter handle without "@", e.g. "lynoagent"
-  email: "",    // contact email, e.g. "hello@lyno.systems"
+  email: "",    // contact email, e.g. "hello@lynoagent.com"
   token: "LYNO", // token symbol shown in the footer
   ca: "",       // token contract address on Elysium (0x…)
 };
@@ -126,7 +127,7 @@ document.querySelectorAll(".tab").forEach((tab) => {
   if (!f) return;
   const $ = (id) => document.getElementById(id);
   const live = location.protocol !== "file:";
-  $("sfEndpoint").textContent = live ? `${location.origin}/mcp` : "https://<your-domain>/mcp";
+  $("sfEndpoint").textContent = `${SITE.domain}/mcp`;
   $("sfYear").textContent = String(new Date().getFullYear());
 
   const x = SITE.x.replace(/^@/, "").trim();

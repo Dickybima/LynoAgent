@@ -13,7 +13,7 @@ export const ELYSIUM = {
   explorerUrl: "https://elysium.kinetiq.xyz/explorer",
 };
 
-const UA = { "user-agent": "LynoAgent/1.0 (+MCP)", accept: "application/json" };
+const UA = { "user-agent": "LynoAgent/1.0 (+https://lynoagent.com)", accept: "application/json" };
 const BURN = /^0x0{40}$|^0x0{36}dead$|^0xdead0{36}$/i;
 
 async function explorer<T>(params: Record<string, string>, timeoutMs = 8000): Promise<T | null> {

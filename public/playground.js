@@ -1,6 +1,7 @@
 // Lyno Agent playground: talks to the real MCP endpoint over Streamable HTTP (JSON-RPC 2.0).
 (() => {
-  const ENDPOINT = `${location.origin}/mcp`;
+  const ENDPOINT = `${location.origin}/mcp`; // same-origin calls (works on previews too)
+  const PUBLIC_ENDPOINT = `${typeof SITE !== "undefined" ? SITE.domain : "https://lynoagent.com"}/mcp`; // what users copy
   const isFile = location.protocol === "file:";
   const $ = (id) => document.getElementById(id);
   let rpcId = 0;
@@ -8,10 +9,10 @@
   let current = null;
 
   // Fill every endpoint placeholder with the real URL.
-  $("endpointUrl").textContent = isFile ? "Deploy the site to get your endpoint URL" : ENDPOINT;
-  document.querySelectorAll("[data-endpoint]").forEach((el) => { if (!isFile) el.textContent = ENDPOINT; });
+  $("endpointUrl").textContent = PUBLIC_ENDPOINT;
+  document.querySelectorAll("[data-endpoint]").forEach((el) => { el.textContent = PUBLIC_ENDPOINT; });
   $("copyEndpoint").addEventListener("click", async (e) => {
-    try { await navigator.clipboard.writeText(ENDPOINT); e.target.textContent = "Copied ✓"; }
+    try { await navigator.clipboard.writeText(PUBLIC_ENDPOINT); e.target.textContent = "Copied ✓"; }
     catch { e.target.textContent = "Failed"; }
     setTimeout(() => (e.target.textContent = "Copy URL"), 1500);
   });
