@@ -1,0 +1,220 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 1920px; height: 1080px; position: relative; color: #d8f6ff; font-family: "Space Grotesk", sans-serif; }
+  .abs { position: absolute; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  #dots { inset: 0; background-image: radial-gradient(rgba(34,229,255,0.16) 1.2px, transparent 1.7px); background-size: 18px 18px; }
+  #vignette { inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 35%, #02060a 85%); }
+  #rain { inset: 0; }
+  #halo { width: 760px; height: 760px; border-radius: 50%; background: radial-gradient(circle, rgba(34,229,255,0.32), rgba(61,107,255,0.12) 48%, transparent 70%); filter: blur(30px); }
+  #logoWrap { width: 700px; height: 700px; perspective: 1600px; }
+  #logo { width: 700px; height: 700px; -webkit-mask-image: radial-gradient(circle at 50% 46%, #000 58%, transparent 71%); mask-image: radial-gradient(circle at 50% 46%, #000 58%, transparent 71%); }
+  #beam { left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, rgba(34,229,255,.2) 20%, #22e5ff 50%, #fff 60%, #22e5ff 70%, transparent); box-shadow: 0 0 30px 5px rgba(34,229,255,.5); }
+  .kicker { font: 700 26px "JetBrains Mono", monospace; letter-spacing: .32em; color: #19e6a0; display: flex; align-items: center; gap: 18px; }
+  .kicker i { width: 14px; height: 14px; border-radius: 50%; background: #19e6a0; box-shadow: 0 0 16px #19e6a0; }
+  .grad { background: linear-gradient(90deg, #19e6a0, #22e5ff 45%, #3d6bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #introTxt { width: 100%; text-align: center; top: 120px; font: 700 30px "JetBrains Mono", monospace; letter-spacing: .6em; color: #22e5ff; text-shadow: 0 0 20px rgba(34,229,255,.6); }
+  #brand { width: 100%; text-align: center; top: 870px; font: 700 92px "Space Grotesk"; letter-spacing: .32em; text-indent: .32em; }
+  #brand b { color: #22e5ff; }
+  #tagBlock { left: 170px; top: 300px; width: 1000px; }
+  #tagBlock h1 { margin-top: 34px; font-size: 128px; line-height: 1.02; letter-spacing: -0.02em; }
+  #tagBlock p { margin-top: 36px; font-size: 34px; color: #9fc3cf; max-width: 900px; line-height: 1.4; }
+  #tagBlock p b { color: #d8f6ff; }
+  .word { display: inline-block; }
+  /* demo */
+  #demoTitle { width: 100%; text-align: center; top: 110px; font-size: 64px; font-weight: 700; }
+  #chat { left: 360px; top: 250px; width: 1200px; padding: 40px; border-radius: 26px; background: rgba(6,18,26,.88); border: 1.5px solid rgba(34,229,255,.22); box-shadow: 0 0 80px rgba(34,229,255,.08); display: flex; flex-direction: column; gap: 26px; }
+  .cap { font: 700 18px "JetBrains Mono"; letter-spacing: .28em; color: #7fa6b4; }
+  .msg { max-width: 88%; padding: 22px 28px; border-radius: 22px; font-size: 32px; line-height: 1.45; }
+  #mYou { align-self: flex-end; background: linear-gradient(90deg, rgba(25,230,160,.18), rgba(34,229,255,.18)); border: 1.5px solid rgba(34,229,255,.4); border-top-right-radius: 6px; }
+  #mYou code, #mTool code { font-family: "JetBrains Mono"; color: #22e5ff; }
+  #mTool { align-self: stretch; padding: 18px 24px; border-left: 4px solid #22e5ff; background: rgba(34,229,255,.06); font: 500 25px/1.6 "JetBrains Mono"; color: #19e6a0; min-height: 104px; }
+  #mTool .dim { color: #7fa6b4; }
+  #mAi { align-self: flex-start; background: rgba(10,26,36,.95); border: 1.5px solid rgba(34,229,255,.18); border-top-left-radius: 6px; min-height: 160px; }
+  .cursor { display: inline-block; width: 14px; height: 30px; background: #22e5ff; vertical-align: -4px; margin-left: 4px; }
+  /* features */
+  #featTitle { width: 100%; text-align: center; top: 170px; font-size: 72px; font-weight: 700; }
+  #feats { left: 170px; right: 170px; top: 380px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; }
+  .feat { padding: 44px 36px; border-radius: 26px; background: rgba(6,18,26,.9); border: 1.5px solid rgba(34,229,255,.22); min-height: 400px; }
+  .feat .n { font: 700 34px "JetBrains Mono"; color: #22e5ff; text-shadow: 0 0 18px rgba(34,229,255,.6); }
+  .feat h3 { margin-top: 26px; font-size: 40px; line-height: 1.15; }
+  .feat p { margin-top: 18px; font-size: 27px; color: #9fc3cf; line-height: 1.45; }
+  /* outro */
+  #outro { left: 170px; top: 250px; width: 1000px; }
+  #outro h2 { margin-top: 30px; font-size: 104px; line-height: 1.04; letter-spacing: -0.02em; }
+  #ep { margin-top: 56px; display: inline-flex; align-items: center; gap: 30px; padding: 26px 34px; border: 2px solid rgba(34,229,255,.5); border-radius: 10px; background: rgba(0,0,0,.6); box-shadow: 0 0 40px rgba(34,229,255,.18); font: 600 40px "JetBrains Mono"; color: #22e5ff; }
+  #ep span { font-size: 22px; letter-spacing: .2em; color: #19e6a0; }
+  #clients { margin-top: 40px; font: 600 26px "JetBrains Mono"; letter-spacing: .22em; color: #7fa6b4; }
+  #site { margin-top: 18px; font-size: 44px; font-weight: 700; }
+</style></head>
+<body>
+  <div id="dots" class="abs"></div>
+  <canvas id="rain" class="abs" width="1920" height="1080"></canvas>
+  <div id="halo" class="abs"></div>
+  <div id="beam" class="abs"></div>
+  <div id="logoWrap" class="abs"><img id="logo" src="logo.webp"></div>
+  <div id="vignette" class="abs"></div>
+
+  <div id="introTxt" class="abs">INTRODUCING</div>
+  <div id="brand" class="abs">LYNO <b>AGENT</b></div>
+
+  <div id="tagBlock" class="abs">
+    <div class="kicker"><i></i>MCP SERVER · ELYSIUM</div>
+    <h1><span class="word" id="w1">Give</span> <span class="word" id="w2">your</span> <span class="word" id="w3">AI</span><br>
+        <span class="word grad" id="w4">eyes</span> <span class="word grad" id="w5">on-chain.</span></h1>
+    <p id="tagP"><b>Lyno is an MCP server for Elysium.</b> Plug it into Claude, Cursor or any MCP client — your AI reads the chain on its own.</p>
+  </div>
+
+  <div id="demoTitle" class="abs">Ask your AI. <span class="grad">Lyno reads the chain.</span></div>
+  <div id="chat" class="abs">
+    <div class="cap">CLAUDE · CONNECTED TO LYNO</div>
+    <div class="msg" id="mYou">Is <code>0xfF27…9929</code> safe to ape on Elysium?</div>
+    <div id="mTool"><div id="toolCall"></div><div id="toolRes" class="dim"></div></div>
+    <div class="msg" id="mAi"><span id="aiText"></span><span class="cursor" id="aiCur"></span></div>
+  </div>
+
+  <div id="featTitle" class="abs">Everything behind a <span class="grad">contract address.</span></div>
+  <div id="feats" class="abs">
+    <div class="feat" id="f1"><div class="n">01</div><h3>Deployer &amp; launchpad</h3><p>Who launched it, from which factory, and when.</p></div>
+    <div class="feat" id="f2"><div class="n">02</div><h3>Real holders</h3><p>Wallets split from liquidity pools — no fake whales.</p></div>
+    <div class="feat" id="f3"><div class="n">03</div><h3>Contract powers</h3><p>Owner status, proxy, mint, blacklist, fee switches.</p></div>
+    <div class="feat" id="f4"><div class="n">04</div><h3>Risk verdict</h3><p>Low, medium or high — with the red flags behind it.</p></div>
+  </div>
+
+  <div id="outro" class="abs">
+    <div class="kicker"><i></i>CONNECT IN ONE LINE</div>
+    <h2>Give your AI<br><span class="grad">eyes on-chain.</span></h2>
+    <div id="ep"><span>MCP</span>https://www.lynoagent.com/mcp</div>
+    <div id="clients">CLAUDE · CURSOR · VS CODE · ANY MCP CLIENT</div>
+    <div id="site">www.lynoagent.com</div>
+  </div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const ease = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const outE = (x) => 1 - Math.pow(1 - clamp(x), 3);
+// progress of an "appear at s over d seconds"
+const p = (t, s, d = 0.6) => outE((t - s) / d);
+// visible window: fade in at a, fade out at b
+const win = (t, a, b, f = 0.5) => clamp((t - a) / f) * clamp((b - t) / f);
+const lerp = (a, b, k) => a + (b - a) * k;
+
+function set(id, o, tf) {
+  const el = $(id);
+  el.style.opacity = o.toFixed(3);
+  if (tf !== undefined) el.style.transform = tf;
+}
+function typed(str, t, s, cps) {
+  const n = Math.floor(clamp((t - s) * cps, 0, str.length));
+  return str.slice(0, n);
+}
+
+// deterministic "data rain"
+const rain = $("rain").getContext("2d");
+const COLS = 96, GAP = 20;
+const cols = Array.from({ length: COLS }, (_, i) => {
+  const r = Math.sin(i * 12.9898) * 43758.5453; const fr = r - Math.floor(r);
+  const r2 = Math.sin(i * 78.233) * 12345.6789; const fr2 = r2 - Math.floor(r2);
+  return { speed: 60 + fr * 160, off: fr2 * 1080, color: ["#22e5ff", "#19e6a0", "#3d6bff", "#7a5cff"][i % 4] };
+});
+function drawRain(t) {
+  rain.clearRect(0, 0, 1920, 1080);
+  cols.forEach((c, i) => {
+    const y0 = (c.off + t * c.speed) % 1240 - 80;
+    for (let k = 0; k < 7; k++) {
+      rain.globalAlpha = (0.55 - k * 0.075) * 0.55;
+      rain.fillStyle = c.color;
+      rain.fillRect(i * GAP + 8, y0 - k * 18, 3, 3);
+    }
+  });
+  rain.globalAlpha = 1;
+}
+
+const AI = "No single wallet dominates and there's no owner left to pull strings — good signs. But the pool is under a day old and liquidity is thin. Test with a small sell first.";
+const CALL = '⚙ lyno-agent · token_info({ address: "0xfF27…9929" })';
+const RES = "↳ Elysium Rings · uniswap v4 · 202 holders · top-10 wallets 22.6% · owner: none · verdict MEDIUM";
+
+window.render = function (t) {
+  drawRain(t);
+
+  // ---------- logo: always spinning, moves between scenes ----------
+  const spin = t * 48; // deg
+  // positions (center x,y and scale) per scene
+  const keys = [
+    { t: 0.0, x: 960, y: 500, s: 0.85 },
+    { t: 3.8, x: 960, y: 500, s: 1.0 },
+    { t: 4.8, x: 1460, y: 540, s: 1.05 },
+    { t: 8.0, x: 1460, y: 540, s: 1.05 },
+    { t: 8.8, x: 1770, y: 930, s: 0.32 },
+    { t: 23.2, x: 1770, y: 930, s: 0.32 },
+    { t: 24.2, x: 1470, y: 540, s: 1.0 },
+    { t: 99, x: 1470, y: 540, s: 1.0 },
+  ];
+  let k = 0; while (k < keys.length - 2 && t >= keys[k + 1].t) k++;
+  const A = keys[k], B = keys[k + 1];
+  const m = ease((t - A.t) / Math.max(B.t - A.t, 0.001));
+  const lx = lerp(A.x, B.x, m), ly = lerp(A.y, B.y, m), ls = lerp(A.s, B.s, m);
+  const logoO = clamp(t / 1.2);
+  const inCorner = clamp((t - 8.0) / 0.6) * clamp((23.6 - t) / 0.6); // 1 while the logo is the small corner mark
+  const bob = Math.sin(t * 1.4) * 10;
+  $("logoWrap").style.left = `${lx - 350}px`;
+  $("logoWrap").style.top = `${ly - 350 + bob}px`;
+  $("logoWrap").style.opacity = logoO.toFixed(3);
+  $("logo").style.transform = `scale(${ls.toFixed(3)}) rotateY(${spin.toFixed(2)}deg)`;
+  $("halo").style.left = `${lx - 380}px`; $("halo").style.top = `${ly - 380 + bob}px`;
+  $("halo").style.opacity = (logoO * (0.75 + 0.25 * Math.sin(t * 2))).toFixed(3);
+  $("halo").style.transform = `scale(${ls.toFixed(3)})`;
+  // light beam sweeps in with the logo
+  $("beam").style.top = `${ly + 170 * ls + bob}px`;
+  $("beam").style.opacity = (logoO * (1 - inCorner) * clamp((t - 0.8) / 1.2) * (0.7 + 0.3 * Math.sin(t * 3))).toFixed(3);
+
+  // ---------- scene 1: intro ----------
+  set("introTxt", win(t, 1.0, 4.0), `translateY(${(1 - p(t, 1.0)) * 20}px)`);
+  $("introTxt").style.letterSpacing = `${lerp(0.9, 0.6, p(t, 1.0, 1.2))}em`;
+  set("brand", win(t, 2.0, 4.2), `translateY(${(1 - p(t, 2.0, 0.8)) * 40}px)`);
+
+  // ---------- scene 2: tagline ----------
+  const tagO = win(t, 4.6, 8.3);
+  set("tagBlock", tagO);
+  ["w1", "w2", "w3", "w4", "w5"].forEach((id, i) => {
+    const pr = p(t, 4.9 + i * 0.22, 0.5);
+    set(id, pr, `translateY(${(1 - pr) * 50}px)`);
+  });
+  const tp = p(t, 6.2, 0.7);
+  set("tagP", tp, `translateY(${(1 - tp) * 20}px)`);
+
+  // ---------- scene 3: demo ----------
+  const demoO = win(t, 8.6, 17.8);
+  set("demoTitle", demoO, `translateY(${(1 - p(t, 8.6)) * 30}px)`);
+  set("chat", demoO, `translateY(${(1 - p(t, 8.8, 0.8)) * 40}px)`);
+  set("mYou", p(t, 9.3, 0.5), `translateY(${(1 - p(t, 9.3, 0.5)) * 20}px)`);
+  set("mTool", p(t, 10.4, 0.4));
+  $("toolCall").textContent = typed(CALL, t, 10.5, 34);
+  $("toolRes").textContent = t > 12.3 ? typed(RES, t, 12.3, 70) : "";
+  set("mAi", p(t, 13.6, 0.4));
+  $("aiText").textContent = typed(AI, t, 13.6, 62);
+  $("aiCur").style.opacity = (t > 13.6 && Math.floor(t * 2.2) % 2 === 0) ? 1 : 0;
+
+  // ---------- scene 4: features ----------
+  const fO = win(t, 17.9, 23.4);
+  set("featTitle", fO, `translateY(${(1 - p(t, 17.9)) * 30}px)`);
+  ["f1", "f2", "f3", "f4"].forEach((id, i) => {
+    const pr = p(t, 18.5 + i * 0.35, 0.6);
+    set(id, pr * fO, `translateY(${(1 - pr) * 60}px)`);
+  });
+
+  // ---------- scene 5: outro ----------
+  const oO = clamp((t - 23.8) / 0.6);
+  set("outro", oO);
+  $("outro").querySelectorAll(":scope > *").forEach((el, i) => {
+    const pr = p(t, 24.0 + i * 0.3, 0.6);
+    el.style.opacity = pr.toFixed(3);
+    el.style.transform = `translateY(${(1 - pr) * 30}px)`;
+  });
+};
+window.render(0);
+</script>
+</body></html>
