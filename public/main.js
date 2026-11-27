@@ -3,7 +3,7 @@
 // Empty values are hidden, so nothing placeholder-y shows on the site.
 const SITE = {
   domain: "https://www.lynoagent.com", // canonical site URL — shown in endpoint boxes even when opened via *.vercel.app
-  x: "",        // X / Twitter handle without "@", e.g. "lynoagent"
+  x: "Lyno_Agent", // X / Twitter handle without "@"
   email: "",    // contact email, e.g. "hello@lynoagent.com"
   token: "LYNO", // token symbol shown in the footer
   ca: "",       // token contract address on Elysium (0x…)

@@ -4,6 +4,7 @@
 
 <h1 align="center">Lyno Agent</h1>
 <p align="center"><b>Give your AI eyes on-chain.</b><br/>Lyno is an MCP server for Elysium: connect it to Claude, Cursor or any MCP client and your AI reads the chain on its own.</p>
+<p align="center"><a href="https://www.lynoagent.com">www.lynoagent.com</a> · <a href="https://x.com/Lyno_Agent">@Lyno_Agent on X</a></p>
 
 ## Repository layout
 
