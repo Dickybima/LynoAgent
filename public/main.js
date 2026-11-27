@@ -158,3 +158,23 @@ document.querySelectorAll(".tab").forEach((tab) => {
     });
   });
 })();
+
+// Hero logo: follows the pointer (mouse or touch drag); swivels on its own otherwise
+(() => {
+  const art = document.querySelector(".hero-art");
+  if (!art || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const move = (e) => {
+    const r = art.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5; // -0.5 … 0.5
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    art.style.setProperty("--ry", `${(x * 80).toFixed(1)}deg`);
+    art.style.setProperty("--rx", `${(-y * 24).toFixed(1)}deg`);
+    art.classList.add("tracking");
+  };
+  const release = () => art.classList.remove("tracking");
+  art.addEventListener("pointermove", move);
+  art.addEventListener("pointerdown", move);
+  art.addEventListener("pointerleave", release);
+  art.addEventListener("pointercancel", release);
+  art.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") release(); });
+})();

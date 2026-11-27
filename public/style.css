@@ -118,11 +118,26 @@ h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1.04; margin: 0 0 20px;
 .cursor { color: var(--cyan); animation: blink 1s steps(1) infinite; }
 
 .hero-copy, .hero-art { min-width: 0; }
-.hero-art { position: relative; display: grid; place-items: center; }
+.hero-art { position: relative; display: grid; place-items: center; perspective: 1100px; touch-action: pan-y; cursor: grab; }
 .hero-art img {
   width: 100%; max-width: 520px; height: auto; position: relative;
   mask-image: radial-gradient(circle at 50% 45%, #000 58%, transparent 72%);
-  animation: float 6s ease-in-out infinite;
+  transform-origin: 50% 55%;
+  will-change: transform;
+  animation: swivel 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(34, 229, 255, 0.18));
+}
+/* While the pointer is over the logo it turns toward the pointer instead of swiveling on its own. */
+.hero-art.tracking img {
+  animation: none;
+  transform: translateY(-6px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+  transition: transform 0.12s ease-out;
+}
+@keyframes swivel {
+  0%, 100% { transform: translateY(0) rotateY(-34deg) rotateX(3deg); }
+  25% { transform: translateY(-12px) rotateY(0deg) rotateX(0deg); }
+  50% { transform: translateY(0) rotateY(34deg) rotateX(3deg); }
+  75% { transform: translateY(-12px) rotateY(0deg) rotateX(0deg); }
 }
 .halo { position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(34, 229, 255, 0.28), rgba(61, 107, 255, 0.12) 45%, transparent 70%); filter: blur(20px); animation: pulse 4s infinite; }
 .scanline { position: absolute; left: 5%; right: 5%; top: 68%; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--cyan), transparent); box-shadow: 0 0 22px 4px rgba(34, 229, 255, 0.6); animation: scan 5s ease-in-out infinite; }
