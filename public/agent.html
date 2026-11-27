@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent — Lyno Agent</title>
+  <meta name="description" content="Lyno Agent: an MCP server for Claude and other MCP clients — workspace, web, long-term memory and utilities in one agent." />
+  <meta name="theme-color" content="#02060a" />
+  <link rel="icon" type="image/png" href="assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <meta property="og:title" content="Lyno Agent" />
+  <meta property="og:description" content="The silent digital operator for your AI — an MCP server." />
+  <meta property="og:image" content="assets/lyno-logo.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="matrix" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a class="brand" href="index.html">
+      <img src="assets/favicon-64.png" alt="" width="32" height="32" />
+      <span>LYNO<b>AGENT</b></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="agent.html" class="active" aria-current="page">Agent</a>
+        <a href="tools.html">Tools</a>
+        <a href="install.html">Install</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="playground.html">Playground</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section chat-section">
+      <h1 class="page-title">Lyno Agent</h1>
+      <p class="sub">Paste a token contract address (CA) and Lyno replies with the details: price, liquidity, holders, taxes, honeypot and authority checks, and a risk verdict.</p>
+
+      <div class="chat" id="chat">
+        <div class="chat-log" id="chatLog" aria-live="polite">
+          <div class="msg bot">
+            <img class="avatar" src="assets/favicon-64.png" alt="" width="32" height="32" />
+            <div class="bubble">
+              <p>Hi, I'm <b>Lyno</b>. Paste any <b>CA</b> (Ethereum, BNB Chain, Base, Solana, pump.fun…) and I'll scan it for you.</p>
+              <div class="chips">
+                <button type="button" class="chip" data-ca="DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">Try BONK (Solana)</button>
+                <button type="button" class="chip" data-ca="0x6982508145454Ce325dDbE47a25d4ec3d2311933">Try PEPE (Ethereum)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="chat-input" id="chatForm" autocomplete="off">
+          <textarea id="chatText" rows="1" placeholder="Paste a CA…" aria-label="Message"></textarea>
+          <button class="btn primary" type="submit" id="sendBtn">Scan</button>
+        </form>
+      </div>
+      <p class="note">Data from DexScreener, GoPlus and RugCheck. Automated checks are not financial advice — always DYOR. The same lookup is available to Claude as the <code>token_info</code> MCP tool (see <a href="playground.html">Playground</a>).</p>
+    </section>
+  </main>
+
+  <footer>
+    <img src="assets/favicon-64.png" alt="" width="24" height="24" />
+    <span>Lyno Agent · MIT License · built on the Model Context Protocol</span>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="agent.js"></script>
+</body>
+</html>

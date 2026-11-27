@@ -10,7 +10,7 @@
 | Folder | Contents |
 |---|---|
 | `server/` | MCP server (TypeScript, `@modelcontextprotocol/sdk`) — stdio & Streamable HTTP |
-| `api/` | Vercel functions: the hosted MCP endpoint (`/mcp`) and health check (`/health`) |
+| `api/` | Vercel functions: hosted MCP endpoint (`/mcp`), token-scanner chat agent (`/api/agent`), health check (`/health`) |
 | `public/` | Static multi-page website (HTML/CSS/JS) with the Lyno theme and logo |
 
 ## Tools
@@ -19,10 +19,24 @@
 |---|---|
 | Workspace | `list_directory`, `read_file`, `write_file`, `search_files` (locked to `LYNO_WORKSPACE`) |
 | Web | `fetch_url` (HTML → text) |
+| Crypto | `token_info` (token details + risk checks by contract address) |
 | Memory | `remember`, `recall`, `forget` (stored in `~/.lyno-agent/memory.json`) |
 | Utilities | `calculate` (no `eval`), `get_time`, `hash_text`, `generate_uuid`, `lyno_status` |
 
 Resources: `lyno://about`, `lyno://memory` · Prompts: `lyno-operator`, `lyno-code-review`
+
+## Token scanner agent
+
+Open `/agent` on the site and paste a token **contract address (CA)** — EVM (`0x…`, Ethereum, BNB Chain, Base, Arbitrum, Polygon, …) or Solana (incl. pump.fun). Lyno replies with:
+
+- price and 5m/1h/6h/24h change, market cap, FDV, liquidity, 24h volume and buys/sells, main pool and its age
+- holder count and top-10 concentration
+- security: buy/sell tax, honeypot, verified source, renounced ownership, mint/freeze authority, proxy, LP locked/burned, RugCheck score
+- a risk verdict (low / medium / high) with the red flags behind it, plus website and social links
+
+Data comes from DexScreener, GoPlus and RugCheck (public, no keys). The same lookup is the `token_info` MCP tool, so Claude can scan tokens too. Deep link: `/agent?ca=<address>`.
+
+**Optional AI analysis:** set `ANTHROPIC_API_KEY` in the Vercel project's environment variables (Settings → Environment Variables) and redeploy. Lyno then adds a short "Lyno's take" written by Claude (model `claude-opus-5-5`, override with `LYNO_MODEL`) in the user's language, and can answer follow-up questions. Without a key the agent still returns the full data report. The endpoint has a basic per-instance rate limit (20 messages/minute per IP).
 
 ## Hosted endpoint (no install)
 
@@ -36,7 +50,7 @@ https://<your-domain>/mcp
 - **Claude Code:** `claude mcp add --transport http lyno-agent https://<your-domain>/mcp`
 - **Try it in the browser:** open `/playground` on the site.
 
-The hosted endpoint is stateless and runs the web and utility tools only (`fetch_url`, `calculate`, `get_time`, `hash_text`, `generate_uuid`, `lyno_status`). `fetch_url` refuses private and local network addresses there. File and memory tools need your machine, so install locally for those.
+The hosted endpoint is stateless and runs the web, crypto and utility tools only (`token_info`, `fetch_url`, `calculate`, `get_time`, `hash_text`, `generate_uuid`, `lyno_status`). `fetch_url` refuses private and local network addresses there. File and memory tools need your machine, so install locally for those.
 
 ## Getting started (local)
 
@@ -85,7 +99,7 @@ Test with the MCP Inspector: `cd server && npm run inspect`
 
 ## Website
 
-The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html`, `how-it-works.html` and `playground.html` (live tool runner). Open `public/index.html` directly in a browser, or serve the `public/` folder from any static host (GitHub Pages, Netlify, Vercel).
+The website has a navigation menu across these pages: `index.html` (Home), `agent.html` (token scanner chat), `tools.html`, `install.html`, `how-it-works.html` and `playground.html` (live tool runner). Open `public/index.html` directly in a browser, or serve the `public/` folder from any static host (GitHub Pages, Netlify, Vercel).
 
 ## License
 
