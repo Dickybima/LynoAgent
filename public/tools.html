@@ -20,20 +20,55 @@
   <canvas id="matrix" aria-hidden="true"></canvas>
 
   <header class="nav">
-    <a class="brand" href="index.html">
+    <a class="brand" href="index.html" aria-label="Lyno Agent home">
       <img src="assets/favicon-64.png" alt="" width="32" height="32" />
-      <span>LYNO<b>AGENT</b></span>
+      <span>LYNO <b>AGENT</b></span>
     </a>
     <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
       <span></span><span></span><span></span>
     </button>
-    <nav id="menu">
-        <a href="index.html">Home</a>
-        <a href="agent.html">Agent</a>
-        <a href="tools.html" class="active" aria-current="page">Tools</a>
-        <a href="install.html">Install</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="playground.html">Playground</a>
+    <nav id="menu" aria-label="Main">
+      <div class="dd">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-agent">AGENT</button>
+        <div class="dd-menu" id="dd-agent">
+          <a href="agent.html">Scan a token</a>
+          <a href="agent.html?ca=0xfF273B5eE754c4c017065DE3889Fa3eE06D69929">Try an Elysium CA</a>
+          <a href="health">Network status</a>
+        </div>
+      </div>
+      <div class="dd active">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-product">PRODUCT</button>
+        <div class="dd-menu" id="dd-product">
+          <a href="how-it-works.html">How it works</a>
+          <a href="tools.html" aria-current="page">Tools</a>
+          <a href="playground.html#try">Playground</a>
+        </div>
+      </div>
+      <div class="dd">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-clients">CLIENTS</button>
+        <div class="dd-menu" id="dd-clients">
+          <a href="playground.html#connect">Claude</a>
+          <a href="playground.html#connect">Claude Code</a>
+          <a href="playground.html#connect">Cursor &amp; VS Code</a>
+        </div>
+      </div>
+      <div class="dd">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-security">SECURITY</button>
+        <div class="dd-menu" id="dd-security">
+          <a href="tools.html" aria-current="page">Read-only checks</a>
+          <a href="install.html">No keys needed</a>
+          <a href="agent.html">Known limits</a>
+        </div>
+      </div>
+      <div class="dd">
+        <button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-build">BUILD</button>
+        <div class="dd-menu" id="dd-build">
+          <a href="install.html">Install locally</a>
+          <a href="install.html">Configuration</a>
+          <a href="playground.html#connect">MCP endpoint</a>
+        </div>
+      </div>
+      <a class="nav-x" id="navX" href="#" target="_blank" rel="noopener noreferrer" hidden></a>
     </nav>
   </header>
 

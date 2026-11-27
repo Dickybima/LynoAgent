@@ -1,3 +1,13 @@
+// ─── Site settings ──────────────────────────────────────────────
+// Fill these in once; the header and footer pick them up on every page.
+// Empty values are hidden, so nothing placeholder-y shows on the site.
+const SITE = {
+  x: "",        // X / Twitter handle without "@", e.g. "lynoagent"
+  email: "",    // contact email, e.g. "hello@lyno.systems"
+  token: "LYNO", // token symbol shown in the footer
+  ca: "",       // token contract address on Elysium (0x…)
+};
+
 // Mobile menu
 const toggle = document.querySelector(".menu-toggle");
 const menu = document.getElementById("menu");
@@ -8,6 +18,33 @@ if (toggle && menu) {
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   });
 }
+
+// Dropdown groups in the top menu (hover on desktop, click/tap everywhere)
+(() => {
+  const groups = [...document.querySelectorAll(".nav .dd")];
+  const closeAll = (except) =>
+    groups.forEach((g) => {
+      if (g === except) return;
+      g.classList.remove("open");
+      g.querySelector(".dd-btn").setAttribute("aria-expanded", "false");
+    });
+  groups.forEach((g) => {
+    const btn = g.querySelector(".dd-btn");
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = !g.classList.contains("open");
+      closeAll(g);
+      g.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".nav .dd")) closeAll(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); });
+
+  const x = SITE.x.replace(/^@/, "").trim();
+  const navX = document.getElementById("navX");
+  if (navX && x) Object.assign(navX, { hidden: false, href: `https://x.com/${encodeURIComponent(x)}`, textContent: `𝕏 ${x}` });
+})();
 
 // Copy buttons
 document.querySelectorAll(".copy").forEach((btn) => {
@@ -92,13 +129,13 @@ document.querySelectorAll(".tab").forEach((tab) => {
   $("sfEndpoint").textContent = live ? `${location.origin}/mcp` : "https://<your-domain>/mcp";
   $("sfYear").textContent = String(new Date().getFullYear());
 
-  const x = (f.dataset.x || "").replace(/^@/, "").trim();
+  const x = SITE.x.replace(/^@/, "").trim();
   if (x) Object.assign($("sfX"), { hidden: false, href: `https://x.com/${encodeURIComponent(x)}`, textContent: `@${x} on X` });
-  const email = (f.dataset.email || "").trim();
+  const email = SITE.email.trim();
   if (email) Object.assign($("sfEmail"), { hidden: false, href: `mailto:${email}`, textContent: email });
 
-  const ca = (f.dataset.ca || "").trim();
-  const sym = `$${(f.dataset.token || "LYNO").replace(/^\$/, "")}`;
+  const ca = SITE.ca.trim();
+  const sym = `$${(SITE.token || "LYNO").replace(/^\$/, "")}`;
   if (/^0x[a-fA-F0-9]{40}$/.test(ca)) {
     $("sfTokenBlock").hidden = false;
     $("sfTokenSymbol").textContent = sym;
