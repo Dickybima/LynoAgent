@@ -46,7 +46,7 @@ code { font-family: var(--mono); font-size: 0.88em; color: var(--green); }
   border-bottom: 1px solid var(--line);
 }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 700; letter-spacing: 0.32em; font-size: 0.95rem; }
-.brand img { border-radius: 8px; box-shadow: 0 0 18px rgba(34, 229, 255, 0.45); }
+.brand img { width: 40px; height: 40px; border-radius: 8px; box-shadow: 0 0 18px rgba(34, 229, 255, 0.45); }
 .brand b { color: var(--cyan); font-weight: 700; }
 
 /* top menu: same groups and style as the footer */
@@ -307,7 +307,7 @@ footer { display: flex; align-items: center; justify-content: center; gap: 10px;
 .sf-inner { max-width: 1200px; margin: 0 auto; padding: 64px clamp(16px, 5vw, 64px) 48px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr); gap: 48px; }
 .sf-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; }
 .sf-logo { display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 700; letter-spacing: 0.32em; font-size: 0.95rem; }
-.sf-logo img { border-radius: 8px; box-shadow: 0 0 16px rgba(34, 229, 255, 0.45); }
+.sf-logo img { width: 40px; height: 40px; border-radius: 8px; box-shadow: 0 0 16px rgba(34, 229, 255, 0.45); }
 .sf-tag { margin: 6px 0 4px; color: var(--text); opacity: 0.85; }
 .sf-contact { font: 0.82rem var(--mono); color: var(--text); }
 .sf-contact:hover { color: var(--cyan); }
