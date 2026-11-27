@@ -278,3 +278,6 @@ footer { display: flex; align-items: center; justify-content: center; gap: 10px;
   .chat-log { padding: 14px; }
   .msg .avatar { display: none; }
 }
+.tag-ely { display: inline-block; font: 700 0.68rem var(--mono); letter-spacing: 0.12em; color: var(--bg); background: linear-gradient(90deg, var(--green), var(--cyan)); padding: 3px 8px; border-radius: 6px; margin-right: 6px; vertical-align: middle; box-shadow: 0 0 14px rgba(34, 229, 255, 0.4); }
+.chip.ely { color: var(--bg); background: var(--cyan); border-color: var(--cyan); font-weight: 600; }
+.chip.ely:hover { box-shadow: 0 0 14px rgba(34, 229, 255, 0.5); }

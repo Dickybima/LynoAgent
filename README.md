@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">Lyno Agent</h1>
-<p align="center">MCP (Model Context Protocol) server — the digital operator for your AI.</p>
+<p align="center">The AI agent for the <b>Elysium</b> network — paste a token CA, get the on-chain details. Also an MCP (Model Context Protocol) server.</p>
 
 ## Repository layout
 
@@ -25,16 +25,25 @@
 
 Resources: `lyno://about`, `lyno://memory` · Prompts: `lyno-operator`, `lyno-code-review`
 
-## Token scanner agent
+## Token scanner agent (Elysium first)
 
-Open `/agent` on the site and paste a token **contract address (CA)** — EVM (`0x…`, Ethereum, BNB Chain, Base, Arbitrum, Polygon, …) or Solana (incl. pump.fun). Lyno replies with:
+Lyno is built for **Elysium**, Kinetiq's Hyperliquid L2 (chain id `99901`, gas token HYPE, RPC `https://rpc.elysium.kinetiq.xyz`, explorer `https://elysium.kinetiq.xyz/explorer`). Every `0x…` address is checked on Elysium first; other chains are only used when the token is not on Elysium.
+
+For Elysium tokens Lyno reads the chain directly (Elysium explorer API + RPC) and DexScreener's `elysium` market data:
+
+- holders split into **wallets vs liquidity** (tokens in the Uniswap v4 PoolManager are not counted as a whale), burned supply and the deployer's share
+- deployer and **launchpad factory**, deploy time, whether the token is a minimal-proxy clone and whether its implementation is verified
+- `owner()` status (no owner / renounced / owned), proxy, and owner powers found in verified source (mint, blacklist, fee changes, pause)
+- honeypot/tax simulation is not available on Elysium yet, so the report says to test with a small sell
+
+Open `/agent` on the site and paste a token **contract address (CA)**: Elysium first, then other EVM chains (Ethereum, BNB Chain, Base, Arbitrum, Polygon, …) or Solana (incl. pump.fun). Lyno replies with:
 
 - price and 5m/1h/6h/24h change, market cap, FDV, liquidity, 24h volume and buys/sells, main pool and its age
 - holder count and top-10 concentration
 - security: buy/sell tax, honeypot, verified source, renounced ownership, mint/freeze authority, proxy, LP locked/burned, RugCheck score
 - a risk verdict (low / medium / high) with the red flags behind it, plus website and social links
 
-Data comes from DexScreener, GoPlus and RugCheck (public, no keys). The same lookup is the `token_info` MCP tool, so Claude can scan tokens too. Deep link: `/agent?ca=<address>`.
+Data comes from the Elysium explorer and RPC, DexScreener, GoPlus and RugCheck (all public, no keys). `ELYSIUM_RPC_URL` and `ELYSIUM_EXPLORER_API` override the Elysium endpoints. The same lookup is the `token_info` MCP tool, so Claude can scan tokens too. Deep link: `/agent?ca=<address>`.
 
 **Optional AI analysis:** set `ANTHROPIC_API_KEY` in the Vercel project's environment variables (Settings → Environment Variables) and redeploy. Lyno then adds a short "Lyno's take" written by Claude (model `claude-opus-5-5`, override with `LYNO_MODEL`) in the user's language, and can answer follow-up questions. Without a key the agent still returns the full data report. The endpoint has a basic per-instance rate limit (20 messages/minute per IP).
 

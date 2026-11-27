@@ -4,6 +4,8 @@
  * All sources are public and keyless; any single source may fail without breaking the report.
  */
 
+import { ELYSIUM, lookupElysium, type ElysiumReport } from "./elysium.js";
+
 const UA = { "user-agent": "LynoAgent/1.0 (+MCP)", accept: "application/json" };
 
 export type ChainKind = "evm" | "solana";
@@ -42,7 +44,7 @@ const GOPLUS_EVM: Record<string, string> = {
 };
 
 const CHAIN_NAMES: Record<string, string> = {
-  ethereum: "Ethereum", bsc: "BNB Chain", base: "Base", arbitrum: "Arbitrum", polygon: "Polygon",
+  elysium: "Elysium", ethereum: "Ethereum", bsc: "BNB Chain", base: "Base", arbitrum: "Arbitrum", polygon: "Polygon",
   avalanche: "Avalanche", optimism: "Optimism", solana: "Solana", linea: "Linea", blast: "Blast",
   sonic: "Sonic", abstract: "Abstract", unichain: "Unichain", berachain: "Berachain", hyperevm: "HyperEVM",
 };
@@ -127,7 +129,11 @@ export interface TokenReport {
     honeypot?: boolean; mintable?: boolean; freezable?: boolean; openSource?: boolean; proxy?: boolean;
     ownerRenounced?: boolean; blacklist?: boolean; pausable?: boolean; metadataMutable?: boolean;
     lpLockedPercent?: number; rugcheckScore?: number; cexListed?: string[];
+    ownerStatus?: string;
   };
+  elysium?: Pick<ElysiumReport,
+    "verified" | "isClone" | "implementation" | "implementationVerified" | "proxy" | "owner" | "creator" | "factory" |
+    "createdAt" | "liquidityPercent" | "burnedPercent" | "creatorPercent" | "sourceFlags" | "holderCountCapped" | "topHolders">;
   links: { label: string; url: string }[];
   risks: { level: "danger" | "warn" | "info"; text: string }[];
   verdict: "low" | "medium" | "high" | "unknown";
@@ -145,10 +151,16 @@ export async function lookupToken(address: string): Promise<TokenReport> {
   const isEvm = /^0x[a-fA-F0-9]{40}$/.test(address);
   const report: TokenReport = { found: false, address, security: {}, links: [], risks: [], verdict: "unknown", sources: [] };
 
-  // 1) Market data
-  const ds = await getJson<{ pairs: DsPair[] | null }>(`https://api.dexscreener.com/latest/dex/tokens/${address}`);
-  const pairs = (ds?.pairs ?? []).filter((p) => p.baseToken.address.toLowerCase() === address.toLowerCase());
-  const usable = pairs.length ? pairs : ds?.pairs ?? [];
+  // 1) Market data (DexScreener) and Elysium on-chain data in parallel. Elysium has priority.
+  const [ds, ely] = await Promise.all([
+    getJson<{ pairs: DsPair[] | null }>(`https://api.dexscreener.com/latest/dex/tokens/${address}`),
+    isEvm ? lookupElysium(address) : Promise.resolve(null),
+  ]);
+  const allPairs = ds?.pairs ?? [];
+  const onElysium = !!ely?.found || allPairs.some((p) => p.chainId === ELYSIUM.slug);
+  const scoped = onElysium ? allPairs.filter((p) => p.chainId === ELYSIUM.slug) : allPairs;
+  const pairs = scoped.filter((p) => p.baseToken.address.toLowerCase() === address.toLowerCase());
+  const usable = pairs.length ? pairs : scoped;
   if (usable.length) {
     report.sources.push("DexScreener");
     const main = usable.slice().sort((a, b) => (b.liquidity?.usd ?? 0) - (a.liquidity?.usd ?? 0))[0];
@@ -189,11 +201,16 @@ export async function lookupToken(address: string): Promise<TokenReport> {
     for (const s of main.info?.socials ?? []) report.links.push({ label: s.type[0].toUpperCase() + s.type.slice(1), url: s.url });
   }
 
+  if (onElysium) { report.chain = ELYSIUM.slug; report.chainName = ELYSIUM.name; }
   const chain = report.chain ?? (isEvm ? undefined : "solana");
   if (!report.chain && !isEvm) { report.chain = "solana"; report.chainName = "Solana"; }
 
   // 2) Security
-  if (chain === "solana") {
+  if (chain === ELYSIUM.slug && ely?.found) {
+    applyElysium(report, ely);
+  } else if (chain === ELYSIUM.slug) {
+    report.risks.push({ level: "info", text: "Elysium explorer data is unavailable right now — on-chain checks skipped." });
+  } else if (chain === "solana") {
     const [gp, rc] = await Promise.all([
       getJson<{ code: number; result?: Record<string, GoPlusSol> }>(
         `https://api.gopluslabs.io/api/v1/solana/token_security?contract_addresses=${address}`),
@@ -288,13 +305,16 @@ export async function lookupToken(address: string): Promise<TokenReport> {
   }
 
   // 3) Market-structure risks
+  if (report.chain === ELYSIUM.slug && !report.sources.includes("DexScreener") && report.found) {
+    report.risks.push({ level: "info", text: "No DexScreener pair yet — price comes from the Elysium explorer." });
+  }
   if (report.found) {
     if (report.bondingCurve) report.risks.push({ level: "warn", text: `Still on the ${report.mainPair?.dex ?? "launchpad"} bonding curve — not migrated to a DEX pool yet.` });
     else if (report.liquidityUsd !== undefined && report.liquidityUsd < 10_000) report.risks.push({ level: "warn", text: `Low liquidity ($${Math.round(report.liquidityUsd).toLocaleString("en-US")}).` });
     if (report.top10Percent !== undefined && report.top10Percent > 50) report.risks.push({ level: "warn", text: `Top 10 holders own ${report.top10Percent.toFixed(1)}% of supply.` });
     const veryNew = report.mainPair?.ageDays !== undefined && report.mainPair.ageDays < 2;
     if (veryNew) report.risks.push({ level: "warn", text: "Very new token — pool is less than 2 days old. Expect high volatility." });
-    if (!report.sources.includes("DexScreener")) report.risks.push({ level: "info", text: "No DEX trading pair found yet." });
+    if (!report.sources.includes("DexScreener") && report.chain !== ELYSIUM.slug) report.risks.push({ level: "info", text: "No DEX trading pair found yet." });
 
     const danger = report.risks.filter((r) => r.level === "danger").length;
     const warn = report.risks.filter((r) => r.level === "warn").length;
@@ -302,6 +322,46 @@ export async function lookupToken(address: string): Promise<TokenReport> {
     if (report.sources.length === 1 && report.sources[0] === "DexScreener") report.verdict = warn ? "medium" : "unknown";
   }
   return report;
+}
+
+function applyElysium(report: TokenReport, e: ElysiumReport) {
+  report.sources.push("Elysium explorer");
+  report.found = true;
+  report.name ??= e.name;
+  report.symbol ??= e.symbol;
+  report.imageUrl ??= e.imageUrl;
+  report.priceUsd ??= e.priceUsd;
+  if (report.marketCap === undefined && e.priceUsd && e.totalSupply) report.marketCap = e.priceUsd * e.totalSupply;
+  report.holders = e.holderCount;
+  report.top10Percent = e.top10WalletPercent;
+  const s = report.security;
+  s.openSource = e.isClone ? e.implementationVerified : e.verified;
+  s.proxy = e.proxy;
+  s.ownerRenounced = e.owner === null ? undefined : e.ownerRenounced;
+  s.ownerStatus = e.owner === null ? "No owner function" : e.ownerRenounced ? "Renounced" : `Owned by ${e.owner!.slice(0, 6)}…${e.owner!.slice(-4)}`;
+  report.elysium = {
+    verified: e.verified, isClone: e.isClone, implementation: e.implementation, implementationVerified: e.implementationVerified,
+    proxy: e.proxy, owner: e.owner, creator: e.creator, factory: e.factory, createdAt: e.createdAt,
+    liquidityPercent: e.liquidityPercent, burnedPercent: e.burnedPercent, creatorPercent: e.creatorPercent,
+    sourceFlags: e.sourceFlags, holderCountCapped: e.holderCountCapped, topHolders: e.topHolders.slice(0, 10),
+  };
+  if (!report.links.some((l) => l.url === e.explorerUrl)) report.links.unshift({ label: "Elysium Explorer", url: e.explorerUrl });
+  for (const l of e.socials) if (!report.links.some((x) => x.url === l.url)) report.links.push(l);
+
+  const owned = !!e.owner && !e.ownerRenounced;
+  if (s.openSource === false) {
+    report.risks.push({
+      level: "warn",
+      text: e.isClone
+        ? "Contract is a launchpad clone whose implementation source is not verified on the Elysium explorer."
+        : "Contract source code is not verified on the Elysium explorer.",
+    });
+  }
+  if (e.proxy) report.risks.push({ level: "warn", text: "Upgradeable proxy contract — logic can change." });
+  if (owned) report.risks.push({ level: "warn", text: "Contract still has an owner (not renounced)." });
+  for (const f of e.sourceFlags) report.risks.push({ level: owned ? "warn" : "info", text: `${f}${owned ? "" : " (no active owner)"}.` });
+  if ((e.creatorPercent ?? 0) > 10) report.risks.push({ level: "warn", text: `Deployer wallet still holds ${e.creatorPercent!.toFixed(1)}% of supply.` });
+  report.risks.push({ level: "info", text: "Honeypot / tax simulation is not available on Elysium yet — test with a small sell first." });
 }
 
 // ---------- text formatting ----------
@@ -325,6 +385,18 @@ export function formatAge(iso: string): string {
 const pct = (n?: number) => (n === undefined ? "—" : `${n > 0 ? "+" : ""}${n.toFixed(2)}%`);
 const yn = (b?: boolean, yes = "Yes", no = "No") => (b === undefined ? "—" : b ? yes : no);
 
+function elysiumLines(r: TokenReport): string[] {
+  const e = r.elysium;
+  if (!e) return ["- On-chain checks unavailable."];
+  const short = (a?: string) => (a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "—");
+  return [
+    `- Verified source: ${yn(r.security.openSource)}${e.isClone ? " (launchpad clone)" : ""} · Proxy: ${yn(e.proxy)} · Owner: ${r.security.ownerStatus ?? "—"}`,
+    `- Deployer: ${short(e.creator)}${e.factory ? ` via factory ${short(e.factory)}` : ""}${e.createdAt ? ` · deployed ${formatAge(e.createdAt)} ago` : ""}`,
+    ...(e.sourceFlags.length ? [`- Contract powers: ${e.sourceFlags.join("; ")}`] : []),
+    "- Honeypot/tax simulation: not available on Elysium yet",
+  ];
+}
+
 export function formatReport(r: TokenReport): string {
   if (!r.found) {
     return `No token found for \`${r.address}\`. Check the contract address — it may be on an unsupported chain or not traded yet.`;
@@ -345,13 +417,19 @@ export function formatReport(r: TokenReport): string {
     r.mainPair ? `- Main pool: ${r.mainPair.dex} (${r.symbol}/${r.mainPair.quote})${r.mainPair.createdAt ? `, created ${formatAge(r.mainPair.createdAt)} ago` : ""}` : "",
     "",
     "### Holders",
-    `- Holders: ${r.holders?.toLocaleString("en-US") ?? "—"} · Top 10 hold: ${r.top10Percent !== undefined ? `${r.top10Percent.toFixed(1)}%` : "—"}`,
+    `- Holders: ${r.holders !== undefined ? `${r.holders.toLocaleString("en-US")}${r.elysium?.holderCountCapped ? "+" : ""}` : "—"} · Top 10 ${r.chain === ELYSIUM.slug ? "wallets" : ""} hold: ${r.top10Percent !== undefined ? `${r.top10Percent.toFixed(1)}%` : "—"}`.replace("Top 10  hold", "Top 10 hold"),
+    ...(r.elysium
+      ? [
+          `- In liquidity pools: ${r.elysium.liquidityPercent !== undefined ? `${r.elysium.liquidityPercent.toFixed(1)}%` : "—"} · Burned: ${r.elysium.burnedPercent !== undefined ? `${r.elysium.burnedPercent.toFixed(1)}%` : "—"} · Deployer holds: ${r.elysium.creatorPercent !== undefined ? `${r.elysium.creatorPercent.toFixed(1)}%` : "—"}`,
+        ]
+      : []),
     "",
     "### Security",
-    r.chain === "solana"
+    ...(r.chain === ELYSIUM.slug ? elysiumLines(r) : []),
+    r.chain === ELYSIUM.slug ? "" : r.chain === "solana"
       ? `- Mint authority: ${yn(s.mintable, "Enabled ⚠️", "Revoked ✅")} · Freeze authority: ${yn(s.freezable, "Enabled ⚠️", "Revoked ✅")} · Metadata: ${yn(s.metadataMutable, "Mutable", "Immutable")}`
       : `- Buy tax: ${s.buyTax !== undefined ? `${s.buyTax.toFixed(1)}%` : "—"} · Sell tax: ${s.sellTax !== undefined ? `${s.sellTax.toFixed(1)}%` : "—"} · Honeypot: ${yn(s.honeypot, "YES 🚨", "No ✅")}`,
-    r.chain === "solana"
+    r.chain === ELYSIUM.slug ? "" : r.chain === "solana"
       ? `- LP locked: ${s.lpLockedPercent !== undefined ? `${s.lpLockedPercent.toFixed(1)}%` : "—"} · RugCheck score: ${s.rugcheckScore !== undefined ? `${s.rugcheckScore}/100 (lower is safer)` : "—"}`
       : `- Verified source: ${yn(s.openSource)} · Ownership renounced: ${yn(s.ownerRenounced)} · Mintable: ${yn(s.mintable)} · Proxy: ${yn(s.proxy)} · LP locked/burned: ${s.lpLockedPercent !== undefined ? `${s.lpLockedPercent.toFixed(1)}%` : "—"}`,
     s.cexListed?.length ? `- Listed on: ${s.cexListed.join(", ")}` : "",

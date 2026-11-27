@@ -9,8 +9,10 @@ export function registerCryptoTools(server: McpServer) {
     {
       title: "Token info by CA",
       description:
-        "Look up a crypto token by contract address (EVM 0x… or Solana mint, incl. pump.fun). Returns price, market cap, " +
-        "liquidity, volume, holders, taxes, honeypot / mint / freeze checks, LP lock and a risk verdict. " +
+        "Look up a crypto token by contract address (CA). Built for Elysium (Kinetiq's Hyperliquid L2, chain 99901): " +
+        "addresses are checked on Elysium first (explorer + RPC: holders split into wallets vs liquidity pools, deployer, " +
+        "launchpad factory, owner status, verified source), then on other EVM chains and Solana (incl. pump.fun). " +
+        "Returns price, market cap, liquidity, volume, holders, security checks and a risk verdict. " +
         "Accepts a bare address or any text containing one (up to 3 addresses).",
       inputSchema: {
         address: z.string().min(32).describe("Contract address, or text that contains one or more addresses"),

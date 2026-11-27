@@ -40,17 +40,18 @@
   <main>
     <section class="section chat-section">
       <h1 class="page-title">Lyno Agent</h1>
-      <p class="sub">Paste a token contract address (CA) and Lyno replies with the details: price, liquidity, holders, taxes, honeypot and authority checks, and a risk verdict.</p>
+      <p class="sub"><span class="tag-ely">ELYSIUM NATIVE</span> Paste an Elysium token contract address (CA) and Lyno replies with the details: price, liquidity, holders, deployer, owner and contract checks, and a risk verdict. Other EVM chains and Solana work too.</p>
 
       <div class="chat" id="chat">
         <div class="chat-log" id="chatLog" aria-live="polite">
           <div class="msg bot">
             <img class="avatar" src="assets/favicon-64.png" alt="" width="32" height="32" />
             <div class="bubble">
-              <p>Hi, I'm <b>Lyno</b>. Paste any <b>CA</b> (Ethereum, BNB Chain, Base, Solana, pump.fun…) and I'll scan it for you.</p>
+              <p>Hi, I'm <b>Lyno</b>, the agent for <b>Elysium</b>. Paste an Elysium <b>CA</b> and I'll scan it on-chain. Ethereum, BNB Chain, Base and Solana work too.</p>
               <div class="chips">
-                <button type="button" class="chip" data-ca="DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">Try BONK (Solana)</button>
-                <button type="button" class="chip" data-ca="0x6982508145454Ce325dDbE47a25d4ec3d2311933">Try PEPE (Ethereum)</button>
+                <button type="button" class="chip ely" data-ca="0xfF273B5eE754c4c017065DE3889Fa3eE06D69929">Try eRings (Elysium)</button>
+                <button type="button" class="chip ely" data-ca="0xBa2cAA31eF1052fe9a70F49615754B337cc90ee1">Try EDOGE (Elysium)</button>
+                <button type="button" class="chip" data-ca="DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">BONK (Solana)</button>
               </div>
             </div>
           </div>
@@ -60,7 +61,7 @@
           <button class="btn primary" type="submit" id="sendBtn">Scan</button>
         </form>
       </div>
-      <p class="note">Data from DexScreener, GoPlus and RugCheck. Automated checks are not financial advice — always DYOR. The same lookup is available to Claude as the <code>token_info</code> MCP tool (see <a href="playground.html">Playground</a>).</p>
+      <p class="note">Elysium data from the Elysium explorer and RPC plus DexScreener; other chains from DexScreener, GoPlus and RugCheck. Automated checks are not financial advice — always DYOR. The same lookup is available to Claude as the <code>token_info</code> MCP tool (see <a href="playground.html">Playground</a>).</p>
     </section>
   </main>
 

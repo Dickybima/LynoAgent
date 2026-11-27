@@ -18,12 +18,12 @@ export interface LynoServerOptions {
 function instructions(hosted: boolean) {
   if (hosted) {
     return `You are connected to the hosted ${AGENT_TITLE} endpoint, a hooded digital operator that works quietly in the background.
-Use token_info to analyze a crypto token by contract address (CA), fetch_url to read public web pages, and the utility tools (calculate, get_time, hash_text, generate_uuid, lyno_status) for quick tasks.
+Use token_info to analyze a crypto token by contract address (CA) — Elysium first — fetch_url to read public web pages, and the utility tools (calculate, get_time, hash_text, generate_uuid, lyno_status) for quick tasks.
 Workspace and memory tools are only available when Lyno runs locally.`;
   }
   return `You are connected to ${AGENT_TITLE}, a hooded digital operator that works quietly in the background.
 Workspace tools (list_directory, read_file, write_file, search_files) are sandboxed to ${WORKSPACE}.
-Use token_info to analyze a crypto token by contract address (CA), fetch_url to read the web, remember/recall/forget for long-term memory, and the utility tools for quick calculations.
+Use token_info to analyze a crypto token by contract address (CA) — Elysium first — fetch_url to read the web, remember/recall/forget for long-term memory, and the utility tools for quick calculations.
 ${READ_ONLY ? "Lyno is in READ-ONLY mode: write_file, remember and forget are disabled." : ""}`.trim();
 }
 
