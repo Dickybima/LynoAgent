@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="website/assets/lyno-logo-512.webp" alt="Lyno Agent" width="220" />
+  <img src="public/assets/lyno-logo-512.webp" alt="Lyno Agent" width="220" />
 </p>
 
 <h1 align="center">Lyno Agent</h1>
@@ -10,7 +10,7 @@
 | Folder | Contents |
 |---|---|
 | `server/` | MCP server (TypeScript, `@modelcontextprotocol/sdk`) — stdio & Streamable HTTP |
-| `website/` | Static multi-page website (HTML/CSS/JS) with the Lyno theme and logo |
+| `public/` | Static multi-page website (HTML/CSS/JS) with the Lyno theme and logo |
 
 ## Tools
 
@@ -69,7 +69,7 @@ Test with the MCP Inspector: `cd server && npm run inspect`
 
 ## Website
 
-The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html` and `how-it-works.html`. Open `website/index.html` directly in a browser, or serve the `website/` folder from any static host (GitHub Pages, Netlify, Vercel).
+The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html` and `how-it-works.html`. Open `public/index.html` directly in a browser, or serve the `public/` folder from any static host (GitHub Pages, Netlify, Vercel).
 
 ## License
 
@@ -77,4 +77,4 @@ MIT
 
 ## Deploy to Vercel
 
-The repo includes `vercel.json`, which serves the `website/` folder as a static site. Import the repository at [vercel.com/new](https://vercel.com/new) and deploy with the default settings; every push to `main` redeploys automatically.
+The site lives in `public/`, which Vercel serves as-is with no build step (`vercel.json` only enables clean URLs). Import the repository at [vercel.com/new](https://vercel.com/new) and deploy with the default settings; every push to `main` redeploys automatically.
