@@ -82,3 +82,41 @@ document.querySelectorAll(".tab").forEach((tab) => {
     .then(() => { badge.textContent = "LIVE"; })
     .catch(() => { badge.textContent = "OFFLINE"; });
 })();
+
+// Rich footer: endpoint URL, configurable contact + token rows, copy buttons
+(() => {
+  const f = document.getElementById("siteFooter");
+  if (!f) return;
+  const $ = (id) => document.getElementById(id);
+  const live = location.protocol !== "file:";
+  $("sfEndpoint").textContent = live ? `${location.origin}/mcp` : "https://<your-domain>/mcp";
+  $("sfYear").textContent = String(new Date().getFullYear());
+
+  const x = (f.dataset.x || "").replace(/^@/, "").trim();
+  if (x) Object.assign($("sfX"), { hidden: false, href: `https://x.com/${encodeURIComponent(x)}`, textContent: `@${x} on X` });
+  const email = (f.dataset.email || "").trim();
+  if (email) Object.assign($("sfEmail"), { hidden: false, href: `mailto:${email}`, textContent: email });
+
+  const ca = (f.dataset.ca || "").trim();
+  const sym = `$${(f.dataset.token || "LYNO").replace(/^\$/, "")}`;
+  if (/^0x[a-fA-F0-9]{40}$/.test(ca)) {
+    $("sfTokenBlock").hidden = false;
+    $("sfTokenSymbol").textContent = sym;
+    $("sfCa").textContent = ca;
+    f.querySelectorAll(".sf-sym").forEach((el) => (el.textContent = sym));
+    $("sfExplorer").href = `https://elysium.kinetiq.xyz/explorer/token/${ca}`;
+    $("sfScan").href = `agent.html?ca=${ca}`;
+  }
+
+  f.querySelectorAll(".sf-copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText($(btn.dataset.copyFrom).textContent.trim());
+        btn.textContent = "COPIED";
+      } catch {
+        btn.textContent = "FAILED";
+      }
+      setTimeout(() => (btn.textContent = "COPY"), 1500);
+    });
+  });
+})();
