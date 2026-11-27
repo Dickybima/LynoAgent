@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tools — Lyno Agent</title>
+  <meta name="description" content="Lyno Agent: MCP server untuk Claude dan klien MCP lain — workspace, web, memori jangka panjang, dan utilitas dalam satu agen." />
+  <meta name="theme-color" content="#02060a" />
+  <link rel="icon" type="image/png" href="assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <meta property="og:title" content="Lyno Agent" />
+  <meta property="og:description" content="Operator digital diam-diam untuk AI Anda — MCP server." />
+  <meta property="og:image" content="assets/lyno-logo.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="matrix" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a class="brand" href="index.html">
+      <img src="assets/favicon-64.png" alt="" width="32" height="32" />
+      <span>LYNO<b>AGENT</b></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="menu">
+        <a href="index.html">Beranda</a>
+        <a href="tools.html" class="active" aria-current="page">Tools</a>
+        <a href="instalasi.html">Instalasi</a>
+        <a href="cara-kerja.html">Cara Kerja</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tools" class="section">
+      <h1 class="page-title">Arsenal tools</h1>
+      <p class="sub">Semua tool terdaftar dengan skema yang jelas dan anotasi <code>readOnly</code> / <code>destructive</code>.</p>
+      <div class="grid">
+        <article class="card">
+          <div class="icon">⌂</div>
+          <h3>Workspace</h3>
+          <p>Jelajahi dan ubah file — terkunci di dalam folder <code>LYNO_WORKSPACE</code>, aman dari path traversal & symlink keluar.</p>
+          <ul><li>list_directory</li><li>read_file</li><li>write_file</li><li>search_files</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">◎</div>
+          <h3>Web</h3>
+          <p>Ambil halaman publik; HTML otomatis diubah menjadi teks yang mudah dibaca model.</p>
+          <ul><li>fetch_url</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">◈</div>
+          <h3>Memori</h3>
+          <p>Ingatan jangka panjang lintas percakapan, disimpan lokal di <code>~/.lyno-agent</code>.</p>
+          <ul><li>remember</li><li>recall</li><li>forget</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">⚙</div>
+          <h3>Utilitas</h3>
+          <p>Kalkulator aman (tanpa <code>eval</code>), zona waktu, hash, UUID, dan status agen.</p>
+          <ul><li>calculate</li><li>get_time</li><li>hash_text</li><li>generate_uuid</li><li>lyno_status</li></ul>
+        </article>
+      </div>
+      <div class="extras">
+        <div><span class="label">Resources</span><code>lyno://about</code><code>lyno://memory</code></div>
+        <div><span class="label">Prompts</span><code>lyno-operator</code><code>lyno-code-review</code></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="assets/favicon-64.png" alt="" width="24" height="24" />
+    <span>Lyno Agent · MIT License · dibangun di atas Model Context Protocol</span>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

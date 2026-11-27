@@ -69,7 +69,7 @@ Uji dengan MCP Inspector: `cd server && npm run inspect`
 
 ## Website
 
-Buka `website/index.html` langsung di browser, atau sajikan folder `website/` lewat hosting statis apa pun (GitHub Pages, Netlify, Vercel).
+Website terdiri dari beberapa halaman dengan menu navigasi: `index.html` (Beranda), `tools.html`, `instalasi.html`, dan `cara-kerja.html`. Buka `website/index.html` langsung di browser, atau sajikan folder `website/` lewat hosting statis apa pun (GitHub Pages, Netlify, Vercel).
 
 ## Lisensi
 

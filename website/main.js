@@ -1,3 +1,14 @@
+// Mobile menu
+const toggle = document.querySelector(".menu-toggle");
+const menu = document.getElementById("menu");
+if (toggle && menu) {
+  toggle.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+  });
+}
+
 // Copy buttons
 document.querySelectorAll(".copy").forEach((btn) => {
   btn.addEventListener("click", async () => {
