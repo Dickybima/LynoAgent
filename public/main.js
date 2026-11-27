@@ -72,3 +72,13 @@ document.querySelectorAll(".tab").forEach((tab) => {
   window.addEventListener("resize", resize);
   if (!reduce) frame();
 })();
+
+// Live status badge on the home page
+(() => {
+  const badge = document.getElementById("liveBadge");
+  if (!badge || location.protocol === "file:") return;
+  fetch("/health", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .then(() => { badge.textContent = "LIVE"; })
+    .catch(() => { badge.textContent = "OFFLINE"; });
+})();

@@ -3,5 +3,12 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": "public",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/mcp", "destination": "/api/mcp" },
+    { "source": "/health", "destination": "/api/health" }
+  ],
+  "functions": {
+    "api/*.ts": { "maxDuration": 30 }
+  }
 }

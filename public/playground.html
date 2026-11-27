@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playground — Lyno Agent</title>
+  <meta name="description" content="Lyno Agent: an MCP server for Claude and other MCP clients — workspace, web, long-term memory and utilities in one agent." />
+  <meta name="theme-color" content="#02060a" />
+  <link rel="icon" type="image/png" href="assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <meta property="og:title" content="Lyno Agent" />
+  <meta property="og:description" content="The silent digital operator for your AI — an MCP server." />
+  <meta property="og:image" content="assets/lyno-logo.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="matrix" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a class="brand" href="index.html">
+      <img src="assets/favicon-64.png" alt="" width="32" height="32" />
+      <span>LYNO<b>AGENT</b></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="install.html">Install</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="playground.html" class="active" aria-current="page">Playground</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <h1 class="page-title">Playground</h1>
+      <p class="sub">This is the live Lyno Agent MCP server. Connect it to Claude, or call its tools right here from your browser.</p>
+
+      <div class="endpoint">
+        <div class="ep-status"><span class="status-dot" id="statusDot"></span><span id="statusText">Checking endpoint…</span></div>
+        <div class="ep-url">
+          <code id="endpointUrl">/mcp</code>
+          <button class="copy inline" type="button" id="copyEndpoint">Copy URL</button>
+        </div>
+      </div>
+
+      <h2 class="h2-small">Connect</h2>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="claudeai" role="tab">Claude.ai / Desktop</button>
+        <button class="tab" data-tab="claudecode" role="tab">Claude Code</button>
+        <button class="tab" data-tab="json" role="tab">Other clients</button>
+      </div>
+      <div class="panel active" data-panel="claudeai">
+        <p class="hint">Open <b>Settings → Connectors → Add custom connector</b>, name it <code>Lyno Agent</code> and paste the URL:</p>
+        <div class="code"><button class="copy" type="button">Copy</button><pre><code data-endpoint>https://your-domain/mcp</code></pre></div>
+      </div>
+      <div class="panel" data-panel="claudecode">
+        <div class="code"><button class="copy" type="button">Copy</button><pre><code>claude mcp add --transport http lyno-agent <span data-endpoint>https://your-domain/mcp</span></code></pre></div>
+      </div>
+      <div class="panel" data-panel="json">
+        <p class="hint">For clients that accept a remote MCP server URL (Cursor, VS Code, MCP Inspector…):</p>
+        <div class="code"><button class="copy" type="button">Copy</button><pre><code>{
+  "mcpServers": {
+    "lyno-agent": { "url": "<span data-endpoint>https://your-domain/mcp</span>" }
+  }
+}</code></pre></div>
+      </div>
+      <p class="note">The hosted endpoint runs the web and utility tools. File and memory tools need your machine, so they only run when you install Lyno locally (see <a href="install.html">Install</a>).</p>
+
+      <h2 class="h2-small">Try the tools</h2>
+      <div class="pg">
+        <aside class="pg-list" id="toolList" aria-label="Tools"><p class="muted">Loading tools…</p></aside>
+        <div class="pg-main">
+          <form id="toolForm" class="pg-form" autocomplete="off">
+            <div class="pg-head">
+              <h3 id="toolName">Select a tool</h3>
+              <p id="toolDesc" class="muted"></p>
+            </div>
+            <div id="toolFields"></div>
+            <button class="btn primary" type="submit" id="runBtn" disabled>Run tool</button>
+          </form>
+          <div class="pg-out">
+            <div class="pg-out-head"><span>Result</span><span id="timing" class="muted"></span></div>
+            <pre id="output" class="muted">Pick a tool, fill in the inputs, and press “Run tool”.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="assets/favicon-64.png" alt="" width="24" height="24" />
+    <span>Lyno Agent · MIT License · built on the Model Context Protocol</span>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="playground.js"></script>
+</body>
+</html>

@@ -184,3 +184,53 @@ footer { display: flex; align-items: center; justify-content: center; gap: 10px;
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* playground */
+.endpoint { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 18px 20px; margin-bottom: 36px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.ep-status { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.92rem; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; background: #5b6b73; flex: none; }
+.status-dot.ok { background: var(--green); box-shadow: 0 0 12px var(--green); animation: pulse 1.6s infinite; }
+.status-dot.bad { background: #ff5c7a; box-shadow: 0 0 12px #ff5c7a; }
+.ep-url { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ep-url code { color: var(--cyan); font-size: 0.95rem; overflow-wrap: anywhere; }
+.copy.inline { position: static; flex: none; }
+.h2-small { font-size: 1.3rem; margin: 8px 0 14px; }
+.note { color: var(--muted); font-size: 0.9rem; margin: 16px 0 40px; padding-left: 12px; border-left: 2px solid var(--cyan); }
+.muted { color: var(--muted); }
+
+.pg { display: grid; grid-template-columns: 240px 1fr; gap: 18px; }
+.pg-list { display: flex; flex-direction: column; gap: 6px; }
+.pg-tool { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; font: 0.82rem var(--sans); }
+.pg-tool code { font-size: 0.85rem; }
+.pg-tool:hover { border-color: rgba(34, 229, 255, 0.5); }
+.pg-tool.active { border-color: var(--cyan); box-shadow: 0 0 18px rgba(34, 229, 255, 0.25); color: var(--text); }
+.pg-main { display: grid; gap: 18px; min-width: 0; }
+.pg-form { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+.pg-head h3 { margin: 0 0 4px; }
+.pg-head p { margin: 0; font-size: 0.92rem; }
+#toolFields { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field-label em { font-style: normal; font-size: 0.72rem; color: var(--cyan); margin-left: 6px; }
+.field small { color: var(--muted); font-size: 0.8rem; }
+.field input, .field select { width: 100%; font: 0.92rem var(--mono); color: var(--text); background: rgba(0, 0, 0, 0.55); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34, 229, 255, 0.15); }
+.field.check { grid-template-columns: auto 1fr; align-items: center; }
+.field.check .field-label { order: 2; }
+.field.check input { width: 18px; height: 18px; accent-color: var(--cyan); }
+.field.check small { grid-column: 1 / -1; }
+.pg-form .btn { justify-self: start; border: 0; cursor: pointer; font: 600 0.95rem var(--sans); }
+.pg-form .btn:disabled { opacity: 0.5; cursor: wait; }
+.pg-out { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.pg-out-head { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); font: 600 0.75rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+#output { margin: 0; padding: 16px; min-height: 140px; max-height: 420px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 0.85rem/1.6 var(--mono); color: var(--text); }
+#output.muted { color: var(--muted); }
+#output.err { color: #ff8da1; }
+.avail { display: inline-block; margin-left: 8px; font: 600 0.65rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 5px; vertical-align: middle; }
+.avail.cloud { color: var(--bg); background: var(--cyan); }
+.avail.local { color: var(--muted); border: 1px solid var(--line); }
+
+@media (max-width: 860px) {
+  .pg { grid-template-columns: 1fr; }
+  .pg-list { flex-direction: row; overflow-x: auto; padding-bottom: 4px; }
+  .pg-tool { flex: none; }
+}

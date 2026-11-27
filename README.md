@@ -10,6 +10,7 @@
 | Folder | Contents |
 |---|---|
 | `server/` | MCP server (TypeScript, `@modelcontextprotocol/sdk`) — stdio & Streamable HTTP |
+| `api/` | Vercel functions: the hosted MCP endpoint (`/mcp`) and health check (`/health`) |
 | `public/` | Static multi-page website (HTML/CSS/JS) with the Lyno theme and logo |
 
 ## Tools
@@ -23,7 +24,21 @@
 
 Resources: `lyno://about`, `lyno://memory` · Prompts: `lyno-operator`, `lyno-code-review`
 
-## Getting started
+## Hosted endpoint (no install)
+
+The Vercel deployment exposes a live MCP server over Streamable HTTP:
+
+```
+https://<your-domain>/mcp
+```
+
+- **Claude.ai / Claude Desktop:** Settings → Connectors → Add custom connector → paste the URL.
+- **Claude Code:** `claude mcp add --transport http lyno-agent https://<your-domain>/mcp`
+- **Try it in the browser:** open `/playground` on the site.
+
+The hosted endpoint is stateless and runs the web and utility tools only (`fetch_url`, `calculate`, `get_time`, `hash_text`, `generate_uuid`, `lyno_status`). `fetch_url` refuses private and local network addresses there. File and memory tools need your machine, so install locally for those.
+
+## Getting started (local)
 
 ```bash
 cd server
@@ -66,10 +81,11 @@ Test with the MCP Inspector: `cd server && npm run inspect`
 | `LYNO_WORKSPACE` | Folder the file tools may access (default: current directory) |
 | `LYNO_DATA_DIR` | Where memory is stored (default: `~/.lyno-agent`) |
 | `LYNO_READ_ONLY` | `1` disables all write actions |
+| `LYNO_MODE` | `hosted` limits the `--http` server to the web and utility tools |
 
 ## Website
 
-The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html` and `how-it-works.html`. Open `public/index.html` directly in a browser, or serve the `public/` folder from any static host (GitHub Pages, Netlify, Vercel).
+The website has a navigation menu across four pages: `index.html` (Home), `tools.html`, `install.html`, `how-it-works.html` and `playground.html` (live tool runner). Open `public/index.html` directly in a browser, or serve the `public/` folder from any static host (GitHub Pages, Netlify, Vercel).
 
 ## License
 
@@ -77,4 +93,4 @@ MIT
 
 ## Deploy to Vercel
 
-The site lives in `public/`, which Vercel serves as-is with no build step (`vercel.json` only enables clean URLs). Import the repository at [vercel.com/new](https://vercel.com/new) and deploy with the default settings; every push to `main` redeploys automatically.
+The site lives in `public/` and is served as static files; `api/` holds the MCP endpoint functions. `vercel.json` pins the project to static + functions (so Vercel's Node preset is ignored) and maps `/mcp` and `/health` to the functions. Import the repository at [vercel.com/new](https://vercel.com/new) and deploy with the default settings; every push to `main` redeploys automatically.

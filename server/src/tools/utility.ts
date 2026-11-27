@@ -68,7 +68,7 @@ export function calculate(expr: string): number {
   return result;
 }
 
-export function registerUtilityTools(server: McpServer) {
+export function registerUtilityTools(server: McpServer, opts: { hosted?: boolean } = {}) {
   server.registerTool(
     "lyno_status",
     {
@@ -81,9 +81,9 @@ export function registerUtilityTools(server: McpServer) {
       json({
         agent: AGENT_TITLE,
         version: AGENT_VERSION,
-        workspace: WORKSPACE,
-        readOnly: READ_ONLY,
-        host: { platform: os.platform(), arch: os.arch(), node: process.version, cpus: os.cpus().length },
+        mode: opts.hosted ? "hosted" : "local",
+        ...(opts.hosted ? {} : { workspace: WORKSPACE, readOnly: READ_ONLY }),
+        host: { platform: os.platform(), arch: os.arch(), node: process.version, region: process.env.VERCEL_REGION },
         uptimeSeconds: Math.round(process.uptime()),
       }),
     ),
