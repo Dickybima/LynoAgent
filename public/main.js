@@ -159,22 +159,58 @@ document.querySelectorAll(".tab").forEach((tab) => {
   });
 })();
 
-// Hero logo: follows the pointer (mouse or touch drag); swivels on its own otherwise
+// Hero logo: spins a full 360° continuously; drag (mouse or touch) to spin it yourself, with momentum
 (() => {
   const art = document.querySelector(".hero-art");
-  if (!art || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const move = (e) => {
-    const r = art.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5; // -0.5 … 0.5
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    art.style.setProperty("--ry", `${(x * 80).toFixed(1)}deg`);
-    art.style.setProperty("--rx", `${(-y * 24).toFixed(1)}deg`);
-    art.classList.add("tracking");
+  const img = art?.querySelector("img");
+  if (!art || !img || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  art.classList.add("js-spin");
+
+  const AUTO = 30;          // degrees per second when idle (one turn every 12 s)
+  const DRAG = 0.6;         // degrees per pixel dragged
+  let angle = 0;
+  let velocity = AUTO;      // current spin speed (deg/s)
+  let dragging = false;
+  let lastX = 0, lastT = 0, last = performance.now();
+
+  function frame(now) {
+    const dt = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    if (!dragging) {
+      // After a flick, ease back toward the steady auto-spin (keeping the flick's direction).
+      const target = Math.sign(velocity || 1) * AUTO;
+      velocity += (target - velocity) * Math.min(dt * 1.6, 1);
+      angle += velocity * dt;
+    }
+    angle %= 360;
+    const bob = Math.sin(now / 1000 * (Math.PI / 3)) * 10; // gentle float, 6 s period
+    img.style.transform = `translateY(${bob.toFixed(2)}px) rotateY(${angle.toFixed(2)}deg)`;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  art.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    lastX = e.clientX; lastT = performance.now();
+    velocity = 0;
+    art.classList.add("dragging");
+    art.setPointerCapture(e.pointerId);
+  });
+  art.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const now = performance.now();
+    const dx = e.clientX - lastX;
+    angle += dx * DRAG;
+    const dt = Math.max((now - lastT) / 1000, 0.001);
+    velocity = Math.max(-900, Math.min(900, (dx * DRAG) / dt)); // remembered for the flick
+    lastX = e.clientX; lastT = now;
+  });
+  const release = () => {
+    if (!dragging) return;
+    dragging = false;
+    if (performance.now() - lastT > 120) velocity = AUTO; // held still before letting go
+    art.classList.remove("dragging");
   };
-  const release = () => art.classList.remove("tracking");
-  art.addEventListener("pointermove", move);
-  art.addEventListener("pointerdown", move);
-  art.addEventListener("pointerleave", release);
+  art.addEventListener("pointerup", release);
   art.addEventListener("pointercancel", release);
-  art.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") release(); });
 })();
