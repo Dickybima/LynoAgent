@@ -74,3 +74,7 @@ The website has a navigation menu across four pages: `index.html` (Home), `tools
 ## License
 
 MIT
+
+## Deploy to Vercel
+
+The repo includes `vercel.json`, which serves the `website/` folder as a static site. Import the repository at [vercel.com/new](https://vercel.com/new) and deploy with the default settings; every push to `main` redeploys automatically.
