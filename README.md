@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">Lyno Agent</h1>
-<p align="center">The AI agent for the <b>Elysium</b> network — paste a token CA, get the on-chain details. Also an MCP (Model Context Protocol) server.</p>
+<p align="center"><b>Every token leaves a trail. Lyno reads it.</b><br/>The on-chain operator for Elysium — and an MCP server that gives Claude the same eyes.</p>
 
 ## Repository layout
 
