@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lynoagent.com/sitemap.xml
+Sitemap: https://www.lynoagent.com/sitemap.xml

@@ -80,7 +80,7 @@ export function registerWebTools(server: McpServer, opts: WebToolOptions = {}) {
       for (let hop = 0; hop <= 5; hop++) {
         if (!["http:", "https:"].includes(u.protocol)) return fail("Only http(s) URLs are supported.");
         if (opts.blockPrivateNetwork) await assertPublicHost(u);
-        res = await fetch(u, { headers: { "user-agent": "LynoAgent/1.0 (+https://lynoagent.com)" }, signal, redirect: "manual" });
+        res = await fetch(u, { headers: { "user-agent": "LynoAgent/1.0 (+https://www.lynoagent.com)" }, signal, redirect: "manual" });
         const location = res.headers.get("location");
         if (res.status >= 300 && res.status < 400 && location) {
           u = new URL(location, u);

@@ -43,22 +43,22 @@ Open `/agent` on the site and paste a token **contract address (CA)**: Elysium f
 - security: buy/sell tax, honeypot, verified source, renounced ownership, mint/freeze authority, proxy, LP locked/burned, RugCheck score
 - a risk verdict (low / medium / high) with the red flags behind it, plus website and social links
 
-Data comes from the Elysium explorer and RPC, DexScreener, GoPlus and RugCheck (all public, no keys). `ELYSIUM_RPC_URL` and `ELYSIUM_EXPLORER_API` override the Elysium endpoints. The same lookup is the `token_info` MCP tool, so Claude can scan tokens too. Deep link: `https://lynoagent.com/agent?ca=<address>`.
+Data comes from the Elysium explorer and RPC, DexScreener, GoPlus and RugCheck (all public, no keys). `ELYSIUM_RPC_URL` and `ELYSIUM_EXPLORER_API` override the Elysium endpoints. The same lookup is the `token_info` MCP tool, so Claude can scan tokens too. Deep link: `https://www.lynoagent.com/agent?ca=<address>`.
 
 **Optional AI analysis:** set `ANTHROPIC_API_KEY` in the Vercel project's environment variables (Settings → Environment Variables) and redeploy. Lyno then adds a short "Lyno's take" written by Claude (model `claude-opus-5-5`, override with `LYNO_MODEL`) in the user's language, and can answer follow-up questions. Without a key the agent still returns the full data report. The endpoint has a basic per-instance rate limit (20 messages/minute per IP).
 
 ## Hosted endpoint (no install)
 
-Live at **[lynoagent.com](https://lynoagent.com)**. The deployment exposes a live MCP server over Streamable HTTP:
+Live at **[www.lynoagent.com](https://www.lynoagent.com)**. The deployment exposes a live MCP server over Streamable HTTP:
 
 ```
-https://lynoagent.com/mcp
+https://www.lynoagent.com/mcp
 ```
 
 - **Claude.ai / Claude Desktop:** Settings → Connectors → Add custom connector → paste the URL.
-- **Claude Code:** `claude mcp add --transport http lyno-agent https://lynoagent.com/mcp`
-- **Try it in the browser:** [lynoagent.com/playground](https://lynoagent.com/playground)
-- **Scan a token:** [lynoagent.com/agent](https://lynoagent.com/agent)
+- **Claude Code:** `claude mcp add --transport http lyno-agent https://www.lynoagent.com/mcp`
+- **Try it in the browser:** [www.lynoagent.com/playground](https://www.lynoagent.com/playground)
+- **Scan a token:** [www.lynoagent.com/agent](https://www.lynoagent.com/agent)
 
 The hosted endpoint is stateless and runs the web, crypto and utility tools only (`token_info`, `fetch_url`, `calculate`, `get_time`, `hash_text`, `generate_uuid`, `lyno_status`). `fetch_url` refuses private and local network addresses there. File and memory tools need your machine, so install locally for those.
 

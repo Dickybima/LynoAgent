@@ -6,7 +6,7 @@
 
 import { ELYSIUM, lookupElysium, type ElysiumReport } from "./elysium.js";
 
-const UA = { "user-agent": "LynoAgent/1.0 (+https://lynoagent.com)", accept: "application/json" };
+const UA = { "user-agent": "LynoAgent/1.0 (+https://www.lynoagent.com)", accept: "application/json" };
 
 export type ChainKind = "evm" | "solana";
 

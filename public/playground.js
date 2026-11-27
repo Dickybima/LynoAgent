@@ -1,7 +1,7 @@
 // Lyno Agent playground: talks to the real MCP endpoint over Streamable HTTP (JSON-RPC 2.0).
 (() => {
   const ENDPOINT = `${location.origin}/mcp`; // same-origin calls (works on previews too)
-  const PUBLIC_ENDPOINT = `${typeof SITE !== "undefined" ? SITE.domain : "https://lynoagent.com"}/mcp`; // what users copy
+  const PUBLIC_ENDPOINT = `${typeof SITE !== "undefined" ? SITE.domain : "https://www.lynoagent.com"}/mcp`; // what users copy
   const isFile = location.protocol === "file:";
   const $ = (id) => document.getElementById(id);
   let rpcId = 0;

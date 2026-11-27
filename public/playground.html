@@ -8,13 +8,13 @@
   <meta name="theme-color" content="#02060a" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
-  <link rel="canonical" href="https://lynoagent.com/playground" />
-  <meta property="og:url" content="https://lynoagent.com/playground" />
+  <link rel="canonical" href="https://www.lynoagent.com/playground" />
+  <meta property="og:url" content="https://www.lynoagent.com/playground" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:title" content="Lyno Agent" />
   <meta property="og:description" content="The AI agent for the Elysium network — paste a token CA, get the on-chain details." />
-  <meta property="og:image" content="https://lynoagent.com/assets/og-image.jpg" />
+  <meta property="og:image" content="https://www.lynoagent.com/assets/og-image.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -84,7 +84,7 @@
       <div class="endpoint">
         <div class="ep-status"><span class="status-dot" id="statusDot"></span><span id="statusText">Checking endpoint…</span></div>
         <div class="ep-url">
-          <code id="endpointUrl">https://lynoagent.com/mcp</code>
+          <code id="endpointUrl">https://www.lynoagent.com/mcp</code>
           <button class="copy inline" type="button" id="copyEndpoint">Copy URL</button>
         </div>
       </div>
@@ -97,16 +97,16 @@
       </div>
       <div class="panel active" data-panel="claudeai">
         <p class="hint">Open <b>Settings → Connectors → Add custom connector</b>, name it <code>Lyno Agent</code> and paste the URL:</p>
-        <div class="code"><button class="copy" type="button">Copy</button><pre><code data-endpoint>https://lynoagent.com/mcp</code></pre></div>
+        <div class="code"><button class="copy" type="button">Copy</button><pre><code data-endpoint>https://www.lynoagent.com/mcp</code></pre></div>
       </div>
       <div class="panel" data-panel="claudecode">
-        <div class="code"><button class="copy" type="button">Copy</button><pre><code>claude mcp add --transport http lyno-agent <span data-endpoint>https://lynoagent.com/mcp</span></code></pre></div>
+        <div class="code"><button class="copy" type="button">Copy</button><pre><code>claude mcp add --transport http lyno-agent <span data-endpoint>https://www.lynoagent.com/mcp</span></code></pre></div>
       </div>
       <div class="panel" data-panel="json">
         <p class="hint">For clients that accept a remote MCP server URL (Cursor, VS Code, MCP Inspector…):</p>
         <div class="code"><button class="copy" type="button">Copy</button><pre><code>{
   "mcpServers": {
-    "lyno-agent": { "url": "<span data-endpoint>https://lynoagent.com/mcp</span>" }
+    "lyno-agent": { "url": "<span data-endpoint>https://www.lynoagent.com/mcp</span>" }
   }
 }</code></pre></div>
       </div>
