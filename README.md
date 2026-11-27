@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">Lyno Agent</h1>
-<p align="center"><b>Every token leaves a trail. Lyno reads it.</b><br/>The on-chain operator for Elysium — and an MCP server that gives Claude the same eyes.</p>
+<p align="center"><b>Give your AI eyes on-chain.</b><br/>Lyno is an MCP server for Elysium: connect it to Claude, Cursor or any MCP client and your AI reads the chain on its own.</p>
 
 ## Repository layout
 

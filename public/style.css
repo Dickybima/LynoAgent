@@ -110,7 +110,7 @@ h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1.04; margin: 0 0 20px;
 .btn.primary:hover { box-shadow: 0 0 40px rgba(34, 229, 255, 0.7); transform: translateY(-1px); }
 .btn.ghost { border: 1px solid var(--line); color: var(--text); }
 .btn.ghost:hover { border-color: var(--cyan); color: var(--cyan); }
-.term {
+.term { white-space: pre-wrap; overflow-wrap: anywhere;
   font: 0.85rem/1.7 var(--mono); margin: 0; padding: 16px 18px;
   background: rgba(0, 0, 0, 0.55); border: 1px solid var(--line); border-radius: 12px;
   color: var(--muted); overflow-x: auto;
@@ -338,3 +338,25 @@ footer { display: flex; align-items: center; justify-content: center; gap: 10px;
   .sf-inner { grid-template-columns: 1fr; gap: 40px; }
   .sf-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* hero MCP endpoint */
+.hero-endpoint { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin: 0 0 14px; max-width: 100%; }
+.hero-endpoint .sf-label { margin-top: 0; }
+.hero-endpoint .sf-box { border-color: rgba(34, 229, 255, 0.35); box-shadow: 0 0 22px rgba(34, 229, 255, 0.12); }
+.hero-endpoint code { color: var(--cyan) !important; font-size: 0.9rem !important; }
+
+/* MCP explainer (home) */
+.mcp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; align-items: start; }
+.mcp-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.mcp-steps li { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; padding: 18px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.step-n { font: 700 1.25rem var(--mono); color: var(--cyan); text-shadow: 0 0 14px rgba(34, 229, 255, 0.55); line-height: 1.2; }
+.mcp-steps h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.mcp-steps p { margin: 0; color: var(--muted); font-size: 0.94rem; }
+.mcp-demo { margin: 0; padding: 20px; display: flex; flex-direction: column; gap: 12px; background: rgba(0, 0, 0, 0.55); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 0 40px rgba(34, 229, 255, 0.06); }
+.mcp-demo figcaption { font: 600 0.68rem var(--mono); letter-spacing: 0.2em; color: var(--muted); }
+.demo-msg { max-width: 92%; padding: 11px 14px; border-radius: 12px; font-size: 0.92rem; line-height: 1.55; }
+.demo-msg.you { align-self: flex-end; background: linear-gradient(90deg, rgba(25, 230, 160, 0.16), rgba(34, 229, 255, 0.16)); border: 1px solid rgba(34, 229, 255, 0.35); border-top-right-radius: 4px; }
+.demo-msg.ai { align-self: flex-start; background: var(--panel); border: 1px solid var(--line); border-top-left-radius: 4px; }
+.demo-tool { align-self: stretch; padding: 10px 12px; border-left: 2px solid var(--cyan); background: rgba(34, 229, 255, 0.05); font: 0.78rem/1.6 var(--mono); color: var(--green); overflow-wrap: anywhere; }
+.t-dim { color: var(--muted); }
+@media (max-width: 860px) { .mcp-grid { grid-template-columns: 1fr; } }

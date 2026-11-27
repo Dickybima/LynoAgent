@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lyno Agent — MCP Server</title>
-  <meta name="description" content="Lyno is the on-chain operator for Elysium. Drop a token contract address and see who deployed it, who holds it, where the liquidity sits and what the contract can still do." />
+  <title>Lyno — the MCP server for Elysium</title>
+  <meta name="description" content="Lyno is an MCP server for Elysium. Connect it to Claude, Cursor or any MCP client and your AI can trace deployers, real holders, liquidity and contract powers on its own." />
   <meta name="theme-color" content="#02060a" />
   <link rel="icon" type="image/png" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:title" content="Lyno Agent" />
-  <meta property="og:description" content="Every token leaves a trail. Lyno reads it — the on-chain operator for Elysium." />
+  <meta property="og:description" content="Give your AI eyes on-chain — the MCP server for Elysium." />
   <meta property="og:image" content="https://www.lynoagent.com/assets/og-image.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -79,20 +79,26 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="kicker"><span class="dot"></span> ELYSIUM · CHAIN 99901 · <span id="liveBadge">ONLINE</span></p>
-        <h1>Every token<br /><span class="grad">leaves a trail.</span></h1>
+        <p class="kicker"><span class="dot"></span> MCP SERVER · ELYSIUM · <span id="liveBadge">ONLINE</span></p>
+        <h1>Give your AI<br /><span class="grad">eyes on-chain.</span></h1>
         <p class="lead">
-          <strong>Lyno reads it.</strong> Drop an <strong>Elysium</strong> contract address and Lyno takes the token
-          apart in seconds: who deployed it, who really holds it, where the liquidity sits, and what the contract
-          can still do. No wallet, no sign-up. Then plug the same eyes straight into Claude over <em>MCP</em>.
+          <strong>Lyno is an MCP server for Elysium.</strong> Connect it once and Claude — or any MCP client —
+          reads the chain on its own: it traces the deployer, separates real holders from liquidity pools, and
+          checks what a contract can still do, right inside the conversation.
         </p>
         <div class="cta">
-          <a class="btn primary" href="agent.html">Scan a CA</a>
-          <a class="btn ghost" href="playground.html#connect">Wire it into Claude →</a>
+          <a class="btn primary" href="playground.html#connect">Connect to Claude</a>
+          <a class="btn ghost" href="agent.html">Try it without setup →</a>
         </div>
-        <pre class="term"><span class="p">$</span> node server/dist/index.js
-<span class="m">[lyno]</span> Lyno Agent v1.0.0 online (stdio)
-<span class="m">[lyno]</span> 14 tools · 2 resources · 2 prompts<span class="cursor">▌</span></pre>
+        <div class="hero-endpoint">
+          <div class="sf-label">MCP ENDPOINT</div>
+          <div class="sf-box">
+            <code id="heroEndpoint">https://www.lynoagent.com/mcp</code>
+            <button type="button" class="sf-copy" data-copy-from="heroEndpoint">COPY</button>
+          </div>
+        </div>
+        <pre class="term"><span class="p">$</span> claude mcp add --transport http lyno-agent https://www.lynoagent.com/mcp
+<span class="m"># then just ask:</span> "is 0xfF27…9929 safe on Elysium?"<span class="cursor">▌</span></pre>
       </div>
       <div class="hero-art">
         <div class="halo"></div>
@@ -100,36 +106,66 @@
         <div class="scanline"></div>
       </div>
     </section>
+    <section class="section mcp-explainer" id="mcp">
+      <h2><span class="tag">MCP</span> One plug. Your AI sees the chain.</h2>
+      <p class="sub">MCP — the Model Context Protocol — is the open standard that lets AI apps call outside tools. Lyno speaks it, so any MCP client can use Lyno's Elysium scanner as if it were built in.</p>
+      <div class="mcp-grid">
+        <ol class="mcp-steps">
+          <li>
+            <span class="step-n">01</span>
+            <div><h3>Connect</h3><p>Paste one URL into Claude, Cursor or VS Code. No API key, no wallet, no install.</p></div>
+          </li>
+          <li>
+            <span class="step-n">02</span>
+            <div><h3>Ask</h3><p>Talk like you normally would: “Is this token safe?” “Who's really holding it?”</p></div>
+          </li>
+          <li>
+            <span class="step-n">03</span>
+            <div><h3>Lyno reads the chain</h3><p>Your AI calls <code>token_info</code>. Lyno pulls the Elysium data and hands back the facts in seconds — your AI explains them.</p></div>
+          </li>
+        </ol>
+        <figure class="mcp-demo" aria-label="Example conversation">
+          <figcaption>EXAMPLE CONVERSATION</figcaption>
+          <div class="demo-msg you">Is <code>0xfF27…9929</code> safe to ape on Elysium?</div>
+          <div class="demo-tool">
+            <div><span class="t-dim">⚙ lyno-agent ·</span> token_info({ address: "0xfF27…9929" })</div>
+            <div class="t-dim">↳ Elysium Rings · uniswap v4 · 202 holders · top-10 wallets 22.6% · owner: none · verdict MEDIUM</div>
+          </div>
+          <div class="demo-msg ai">No single wallet dominates and there's no owner left to pull strings — good signs. But the pool is under a day old and liquidity is thin, so expect big swings. Lyno can't simulate taxes on Elysium yet: test with a small sell first.</div>
+        </figure>
+      </div>
+    </section>
     <section class="section">
+      <h2><span class="tag">GO</span> Explore Lyno</h2>
       <div class="grid menu-cards">
         <a class="card link-card" href="agent.html">
           <div class="icon">◉</div>
           <h3>Agent</h3>
-          <p>Paste a CA. Get the deployer, the real holders, the liquidity and the contract's hidden powers — then a verdict.</p>
+          <p>Try the scanner in your browser — the exact tool your AI calls over MCP. Paste a CA, get a verdict.</p>
           <span class="more">Open →</span>
         </a>
         <a class="card link-card" href="tools.html">
           <div class="icon">⚙</div>
           <h3>Tools</h3>
-          <p>Fourteen instruments: scanner, web reader, memory, file access. Each one schema-strict and honestly labelled.</p>
+          <p>Fourteen MCP tools: Elysium scanner, web reader, memory, files. Strict schemas, honest labels.</p>
           <span class="more">Open →</span>
         </a>
         <a class="card link-card" href="install.html">
           <div class="icon">⇣</div>
           <h3>Install</h3>
-          <p>Run Lyno on your own machine and give Claude a workspace — scoped to one folder, nothing more.</p>
+          <p>Run the MCP server on your own machine and give your AI a workspace — scoped to one folder.</p>
           <span class="more">Open →</span>
         </a>
         <a class="card link-card" href="how-it-works.html">
           <div class="icon">◎</div>
           <h3>How It Works</h3>
-          <p>You ask. The model picks the move. Lyno makes it — only inside the lines you draw.</p>
+          <p>You ask. Your AI picks the tool. Lyno runs it over MCP — only inside the lines you draw.</p>
           <span class="more">Open →</span>
         </a>
         <a class="card link-card" href="playground.html">
           <div class="icon">▶</div>
           <h3>Playground</h3>
-          <p>The live endpoint, open in your browser. Fire every tool before you connect a single client.</p>
+          <p>The live MCP endpoint, open in your browser. Fire every tool before you connect a client.</p>
           <span class="more">Open →</span>
         </a>
       </div>
@@ -143,7 +179,7 @@
           <img src="assets/favicon-64.png" alt="" width="34" height="34" />
           <span>LYNO AGENT</span>
         </a>
-        <p class="sf-tag">The on-chain operator for Elysium.</p>
+        <p class="sf-tag">The MCP server for Elysium.</p>
         <a class="sf-contact" id="sfX" href="#" target="_blank" rel="noopener noreferrer" hidden></a>
         <a class="sf-contact" id="sfEmail" href="#" hidden></a>
 
@@ -199,7 +235,7 @@
     </div>
     <div class="sf-bottom">
       <span>© <span id="sfYear">2026</span> Lyno Agent</span>
-      <span>Reads the chain so you never have to guess.</span>
+      <span>Gives your AI eyes on-chain.</span>
     </div>
   </footer>
 

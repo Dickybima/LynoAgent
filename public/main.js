@@ -214,3 +214,16 @@ document.querySelectorAll(".tab").forEach((tab) => {
   art.addEventListener("pointerup", release);
   art.addEventListener("pointercancel", release);
 })();
+
+// Hero MCP endpoint box: canonical URL + copy button
+(() => {
+  const ep = document.getElementById("heroEndpoint");
+  if (!ep) return;
+  ep.textContent = `${SITE.domain}/mcp`;
+  const btn = document.querySelector('[data-copy-from="heroEndpoint"]');
+  btn?.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(ep.textContent.trim()); btn.textContent = "COPIED"; }
+    catch { btn.textContent = "FAILED"; }
+    setTimeout(() => (btn.textContent = "COPY"), 1500);
+  });
+})();
