@@ -1,0 +1,155 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+  body { width: 1080px; height: 1080px; position: relative; color: #d8f6ff; font-family: "Space Grotesk", sans-serif; }
+  .abs { position: absolute; }
+  #rain { inset: 0; }
+  #dots { inset: 0; background-image: radial-gradient(rgba(34,229,255,0.15) 1.2px, transparent 1.7px); background-size: 18px 18px;
+          -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 20%, transparent 75%); mask-image: radial-gradient(circle at 50% 42%, #000 20%, transparent 75%); }
+  #halo { left: 140px; top: 60px; width: 800px; height: 800px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(34,229,255,0.34), rgba(61,107,255,0.14) 46%, transparent 70%); filter: blur(34px); }
+  #beam { left: 0; right: 0; height: 3px; top: 742px;
+          background: linear-gradient(90deg, transparent, rgba(34,229,255,.25) 18%, #22e5ff 46%, #fff 50%, #22e5ff 54%, rgba(34,229,255,.25) 82%, transparent);
+          box-shadow: 0 0 30px 6px rgba(34,229,255,.45); }
+  #shadow { left: 290px; top: 760px; width: 500px; height: 60px; border-radius: 50%; background: radial-gradient(ellipse, rgba(34,229,255,.35), transparent 70%); filter: blur(12px); }
+
+  /* ---------- 3D coin ---------- */
+  #stage { left: 0; top: 0; width: 1080px; height: 860px; perspective: 2200px; }
+  #coin { position: absolute; left: 230px; top: 110px; width: 620px; height: 620px; transform-style: preserve-3d; }
+  .face { position: absolute; inset: 0; border-radius: 50%; backface-visibility: hidden; overflow: hidden; }
+  .front { transform: translateZ(22px); }
+  .back  { transform: rotateY(180deg) translateZ(22px); }
+  /* metallic rim + inner disc */
+  .metal { position: absolute; inset: 0; border-radius: 50%;
+           background: conic-gradient(from 210deg, #0b4d5e, #6ff6ff, #127f94, #0a3341, #4fe0f0, #0d5f72, #a8fbff, #0b4d5e); }
+  .ring  { position: absolute; inset: 22px; border-radius: 50%; background: radial-gradient(circle at 50% 45%, #0b1d26, #03090d 70%);
+           box-shadow: inset 0 0 0 3px rgba(111,246,255,.55), inset 0 0 40px rgba(34,229,255,.25); }
+  .inner { position: absolute; inset: 86px; border-radius: 50%; overflow: hidden;
+           box-shadow: 0 0 0 4px rgba(111,246,255,.75), 0 0 0 10px rgba(11,77,94,.9), 0 0 30px rgba(34,229,255,.45); background: #02060a; }
+  .inner img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08) translateY(2%); }
+  .ringtext { position: absolute; inset: 22px; }
+  .ringtext text { font: 700 30px "JetBrains Mono", monospace; letter-spacing: 9px; fill: #8ff8ff; }
+  .backc { position: absolute; inset: 86px; border-radius: 50%; display: grid; place-items: center; text-align: center;
+           background: radial-gradient(circle at 50% 40%, #0d2a36, #02080c 72%);
+           box-shadow: 0 0 0 4px rgba(111,246,255,.75), 0 0 0 10px rgba(11,77,94,.9), 0 0 30px rgba(34,229,255,.45); }
+  .backc .sym { font-size: 128px; font-weight: 700; letter-spacing: -0.02em; line-height: 1;
+                background: linear-gradient(90deg, #19e6a0, #22e5ff 45%, #3d6bff); -webkit-background-clip: text; background-clip: text; color: transparent;
+                filter: drop-shadow(0 0 18px rgba(34,229,255,.35)); }
+  .backc .sub { margin-top: 16px; font: 700 24px "JetBrains Mono"; letter-spacing: .36em; color: #8ff8ff; }
+  .backc .tiny { margin-top: 10px; font: 500 18px "JetBrains Mono"; letter-spacing: .2em; color: #4f8a99; }
+  /* moving specular shine */
+  .shine { position: absolute; inset: 0; border-radius: 50%; mix-blend-mode: screen; pointer-events: none;
+           background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.0) 38%, rgba(220,255,255,.55) 47%, rgba(255,255,255,.0) 56%, transparent 64%);
+           background-size: 300% 300%; }
+  /* reeded edge */
+  .edge { position: absolute; left: 50%; top: 50%; width: 28px; height: 44px; margin: -22px 0 0 -14px;
+          background: linear-gradient(90deg, #06303b, #3fd6e6 45%, #0a4a58 55%, #031c24); }
+
+  /* ---------- text ---------- */
+  #kicker { width: 100%; top: 52px; text-align: center; font: 700 22px "JetBrains Mono"; letter-spacing: .42em; color: #19e6a0; }
+  #kicker i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: #19e6a0; box-shadow: 0 0 12px #19e6a0; margin-right: 14px; vertical-align: 2px; }
+  #ticker { width: 100%; top: 806px; text-align: center; font-size: 112px; font-weight: 700; letter-spacing: -0.01em; line-height: 1; }
+  #ticker span { background: linear-gradient(90deg, #19e6a0, #22e5ff 45%, #3d6bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #line2 { width: 100%; top: 942px; text-align: center; font: 600 24px "JetBrains Mono"; letter-spacing: .3em; color: #8fb6c3; }
+  #line3 { width: 100%; top: 990px; text-align: center; font: 500 22px "JetBrains Mono"; letter-spacing: .12em; color: #d8f6ff; }
+  #line3 b { color: #22e5ff; font-weight: 600; }
+</style></head>
+<body>
+  <canvas id="rain" class="abs" width="1080" height="1080"></canvas>
+  <div id="dots" class="abs"></div>
+  <div id="halo" class="abs"></div>
+  <div id="beam" class="abs"></div>
+  <div id="shadow" class="abs"></div>
+
+  <div id="stage" class="abs">
+    <div id="coin">
+      <div id="edges"></div>
+      <div class="face front">
+        <div class="metal"></div><div class="ring"></div>
+        <svg class="ringtext" viewBox="0 0 576 576">
+          <defs><path id="circ" d="M288,288 m-247,0 a247,247 0 1,1 494,0 a247,247 0 1,1 -494,0"/></defs>
+          <text><textPath href="#circ" startOffset="0">LYNO AGENT · ELYSIUM · MCP · LYNO AGENT · ELYSIUM · MCP ·</textPath></text>
+        </svg>
+        <div class="inner"><img src="logo.webp" alt=""></div>
+        <div class="shine" id="shineF"></div>
+      </div>
+      <div class="face back">
+        <div class="metal"></div><div class="ring"></div>
+        <svg class="ringtext" viewBox="0 0 576 576">
+          <defs><path id="circ2" d="M288,288 m-247,0 a247,247 0 1,1 494,0 a247,247 0 1,1 -494,0"/></defs>
+          <text><textPath href="#circ2" startOffset="0">GIVE YOUR AI EYES ON-CHAIN · GIVE YOUR AI EYES ON-CHAIN ·</textPath></text>
+        </svg>
+        <div class="backc"><div><div class="sym">$LYNO</div><div class="sub">ELYSIUM</div><div class="tiny">CHAIN 99901</div></div></div>
+        <div class="shine" id="shineB"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="kicker" class="abs"><i></i>THE LYNO COIN · ON ELYSIUM</div>
+  <div id="ticker" class="abs"><span>$LYNO</span></div>
+  <div id="line2" class="abs">THE MCP SERVER FOR ELYSIUM</div>
+  <div id="line3" class="abs"><b>@Lyno_Agent</b> · www.lynoagent.com</div>
+
+<script>
+const LOOP = 12;                  // seconds — everything below repeats exactly every LOOP
+const $ = (id) => document.getElementById(id);
+
+// reeded rim: thin strips around the coin's circumference
+const R = 310, N = 96, seg = (2 * Math.PI * R) / N + 1;
+const edges = $("edges");
+for (let i = 0; i < N; i++) {
+  const e = document.createElement("div");
+  e.className = "edge";
+  e.style.width = `${seg}px`;
+  e.style.marginLeft = `${-seg / 2}px`;
+  e.style.transform = `rotateZ(${(i * 360) / N}deg) translateY(${-R + 1}px) rotateX(90deg)`;
+  if (i % 2) e.style.filter = "brightness(.6)";
+  edges.appendChild(e);
+}
+edges.style.cssText = "position:absolute; inset:0; transform-style:preserve-3d;";
+
+// loop-safe "data rain": every column travels a whole number of screen-heights per loop
+const ctx = $("rain").getContext("2d");
+const H = 1160, GAP = 18, COLS = Math.ceil(1080 / GAP);
+const cols = Array.from({ length: COLS }, (_, i) => {
+  const a = Math.sin(i * 12.9898) * 43758.5453, fa = a - Math.floor(a);
+  const b = Math.sin(i * 78.233) * 12345.6789, fb = b - Math.floor(b);
+  return { laps: 1 + Math.floor(fa * 3), off: fb * H, color: ["#22e5ff", "#19e6a0", "#3d6bff", "#7a5cff"][i % 4] };
+});
+function drawRain(t) {
+  ctx.clearRect(0, 0, 1080, 1080);
+  cols.forEach((c, i) => {
+    const y0 = (c.off + (t / LOOP) * c.laps * H) % H - 60;
+    for (let k = 0; k < 7; k++) {
+      ctx.globalAlpha = (0.55 - k * 0.075) * 0.5;
+      ctx.fillStyle = c.color;
+      ctx.fillRect(i * GAP + 7, y0 - k * 16, 3, 3);
+    }
+  });
+  ctx.globalAlpha = 1;
+}
+
+window.render = function (t) {
+  const u = (t % LOOP) / LOOP;            // 0 … 1 over one loop
+  drawRain(t);
+  const turns = 2;                         // full rotations per loop
+  const ry = u * 360 * turns;
+  const tilt = 10 * Math.sin(u * 2 * Math.PI * 2);   // gentle wobble, 2 per loop
+  const bob = 12 * Math.sin(u * 2 * Math.PI * 2);
+  $("coin").style.transform = `translateY(${bob.toFixed(2)}px) rotateX(${tilt.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+  // shine slides across as the face turns toward the light
+  const facing = ((ry % 360) + 360) % 360;
+  const pos = (facing / 360) * 200 - 50;
+  $("shineF").style.backgroundPosition = `${pos}% ${pos}%`;
+  $("shineB").style.backgroundPosition = `${(pos + 100) % 200 - 50}% ${(pos + 100) % 200 - 50}%`;
+  // shadow squashes when the coin is edge-on
+  const edgeOn = Math.abs(Math.cos((ry * Math.PI) / 180));
+  $("shadow").style.transform = `scaleX(${(0.55 + 0.45 * edgeOn).toFixed(3)})`;
+  $("shadow").style.opacity = (0.6 + 0.4 * edgeOn).toFixed(3);
+  $("halo").style.opacity = (0.75 + 0.25 * Math.sin(u * 2 * Math.PI * 4)).toFixed(3);
+  $("beam").style.opacity = (0.65 + 0.35 * Math.sin(u * 2 * Math.PI * 3)).toFixed(3);
+};
+window.render(0);
+</script>
+</body></html>
