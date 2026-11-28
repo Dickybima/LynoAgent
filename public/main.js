@@ -42,9 +42,13 @@ if (toggle && menu) {
   document.addEventListener("click", (e) => { if (!e.target.closest(".nav .dd")) closeAll(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); });
 
+  // X icon links (footer): follow SITE.x, hide when it's empty
   const x = SITE.x.replace(/^@/, "").trim();
-  const navX = document.getElementById("navX");
-  if (navX && x) Object.assign(navX, { hidden: false, href: `https://x.com/${encodeURIComponent(x)}`, textContent: `𝕏 ${x}` });
+  document.querySelectorAll("[data-x-link]").forEach((a) => {
+    if (!x) { a.hidden = true; return; }
+    a.href = `https://x.com/${encodeURIComponent(x)}`;
+    a.title = `@${x} on X`;
+  });
 })();
 
 // Copy buttons
@@ -131,7 +135,6 @@ document.querySelectorAll(".tab").forEach((tab) => {
   $("sfYear").textContent = String(new Date().getFullYear());
 
   const x = SITE.x.replace(/^@/, "").trim();
-  if (x) Object.assign($("sfX"), { hidden: false, href: `https://x.com/${encodeURIComponent(x)}`, textContent: `@${x} on X` });
   const email = SITE.email.trim();
   if (email) Object.assign($("sfEmail"), { hidden: false, href: `mailto:${email}`, textContent: email });
 
